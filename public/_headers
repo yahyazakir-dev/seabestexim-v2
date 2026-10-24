@@ -13,5 +13,8 @@
 /fish/*
   Cache-Control: public, max-age=2592000
 
+/fish-video/*
+  Cache-Control: public, max-age=2592000
+
 /brand/*
   Cache-Control: public, max-age=2592000
