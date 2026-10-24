@@ -164,8 +164,16 @@
 .clip__still {
   display: none;
 }
-/* iOS (Parade.tsx sets data-ios): the clip plays end to end; the finished frame stands by in case iOS won't play video */
+/* iOS (Parade.tsx sets data-ios to its iosMode).
+   "play": the clip plays end to end; the finished frame stands by in case iOS won't play video.
+   "stills": no video; the first frame crossfades to the finished frame as the scroll passes. */
 .parade[data-ios] .clip__still {
+  display: block;
+}
+.parade[data-ios="stills"] .clip video {
+  display: none;
+}
+.parade[data-ios="stills"] .clip__start {
   display: block;
 }
 /* start hidden; shown only if the video can't play */

@@ -19,7 +19,10 @@ const restAt = (i: number) => PROCESS + i * SEG;
 
 const media = (slug: string, part = "") => `/fish-video/${slug}${part}`;
 
-export function Parade() {
+// iosMode picks the iPhone behaviour (homepage "stills"; /version1 "play", for side-by-side testing on iPhones):
+//   stills: each fish crossfades from its first to its last frame as the scroll passes (no video on iOS)
+//   play:   each fish's video plays start to end when the scroll reaches it
+export function Parade({ iosMode = "stills" }: { iosMode?: "stills" | "play" }) {
   const root = useRef<HTMLElement>(null);
   const [active, setActive] = useState(0);
 
@@ -47,7 +50,7 @@ export function Parade() {
       // iPhones/iPads (every iOS browser is WebKit) get still frames crossfaded on scroll instead of scrubbed video:
       // iOS limits loaded videos, blocks loading in Low Power Mode and can reload pages holding several decoders.
       const IOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-      if (IOS) el.dataset.ios = "";
+      if (IOS) el.dataset.ios = iosMode;
 
       // Rest position of the clips, measured from the copy around them.
       // "side": wide screens with room beside the info block; the fish sits centred in that space.
@@ -143,6 +146,7 @@ export function Parade() {
         const syncs: (() => void)[] = [];
         // load a clip just before it is needed rather than all of them up front
         const warm = (i: number) => {
+          if (IOS && iosMode === "stills") return;
           const v = videos[i];
           if (v && v.preload !== "auto") {
             v.preload = "auto";
@@ -200,6 +204,10 @@ export function Parade() {
         const process = (k: number, at: number) => {
           tl.to(states[k], { autoAlpha: 1, x: 0, duration: PROCESS * 0.4, ease: "power2.out" }, at + PROCESS * 0.2);
           if (splits[k].length) tl.to(splits[k], { autoAlpha: 1, y: 0, duration: PROCESS * 0.25, stagger: 0.05, ease: "power2.out" }, at + PROCESS * 0.75);
+          if (IOS && iosMode === "stills") {
+            tl.fromTo(stills[k], { opacity: 0 }, { opacity: 1, duration: PROCESS, ease: "power1.inOut", immediateRender: false }, at);
+            return;
+          }
           if (IOS) {
             // iOS: no scrubbing. When the scroll reaches this fish its clip plays normally, start to end; scrolling
             // back above it rewinds it. If iOS refuses to play (Low Power Mode), the finished frame fades in instead.
@@ -299,7 +307,7 @@ export function Parade() {
       if (onResize) window.removeEventListener("resize", onResize);
       ctx?.revert();
     };
-  }, []);
+  }, [iosMode]);
 
   const jump = (i: number) => {
     const el = root.current;
