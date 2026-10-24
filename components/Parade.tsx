@@ -95,6 +95,11 @@ export function Parade() {
         el.style.setProperty("--ny", `${ny}px`);
       };
 
+      const pinSpan = () => {
+        const stage = el.querySelector<HTMLElement>(".parade__stage")!;
+        return el.clientHeight - parseFloat(getComputedStyle(el).paddingBottom) - stage.offsetHeight;
+      };
+
       const build = (intro: boolean) => gsap.context(() => {
         place();
         const fishes = gsap.utils.toArray<HTMLElement>(".parade__fish", el);
@@ -172,10 +177,13 @@ export function Parade() {
           scrollTrigger: {
             trigger: el,
             start: "top top",
-            end: "bottom bottom",
+            // the stage stays pinned for (section height - stage height); measured from the stage, not the screen,
+            // so mobile address bars (and the strip under the stage) can't shift where the sequence ends
+            end: () => `+=${pinSpan()}`,
             scrub: 0.9,
             invalidateOnRefresh: true,
-            snap: { snapTo: "labels", inertia: false, duration: { min: 0.3, max: 0.9 }, delay: 0.08, ease: "power2.inOut" },
+            // no snapping on iOS: programmatic scroll fights Safari's momentum scrolling and makes the fish jump
+            snap: IOS ? undefined : { snapTo: "labels", inertia: false, duration: { min: 0.3, max: 0.9 }, delay: 0.08, ease: "power2.inOut" },
             onUpdate: (self) => {
               const t = self.progress * TOTAL;
               const i = Math.max(0, Math.min(N - 1, Math.round((t - PROCESS) / SEG)));
@@ -283,7 +291,8 @@ export function Parade() {
     const el = root.current;
     if (!el) return;
     const top = el.getBoundingClientRect().top + window.scrollY;
-    const span = el.offsetHeight - window.innerHeight;
+    const stage = el.querySelector<HTMLElement>(".parade__stage")!;
+    const span = el.clientHeight - parseFloat(getComputedStyle(el).paddingBottom) - stage.offsetHeight;
     window.scrollTo({ top: top + (span * restAt(i)) / TOTAL, behavior: "smooth" });
   };
 

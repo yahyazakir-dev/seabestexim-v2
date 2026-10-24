@@ -2,14 +2,15 @@
 .parade {
   position: relative;
   height: calc(var(--n) * 100svh);
+  /* when a phone's address bar hides, the screen grows past the (fixed, svh) stage; this dark strip fills it so the
+     white section below never shows. A fixed size, unlike dvh, which resized the stage mid-scroll and made it jump. */
+  padding-bottom: calc(100lvh - 100svh);
   background: var(--abyss);
 }
 .parade__stage {
   position: sticky;
   top: 0;
   height: 100svh;
-  /* follow the visible height as mobile address bars slide away, so the next (white) section never peeks in */
-  height: 100dvh;
   min-height: 520px;
   overflow: hidden;
   isolation: isolate;
@@ -170,6 +171,14 @@
 .parade[data-ios] .clip__start,
 .parade[data-ios] .clip__still {
   display: block;
+}
+/* start hidden; the scroll timeline reveals them (so an interrupted animation still shows the plain fish) */
+.parade[data-ios] .clip__still {
+  opacity: 0;
+}
+.parade[data-mode="motion"] .clip__tag {
+  opacity: 0;
+  visibility: hidden;
 }
 /* tuna: where the frozen half and the pre-cooked loins sit in the frame */
 .clip__tag {
