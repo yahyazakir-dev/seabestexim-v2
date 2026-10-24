@@ -44,6 +44,10 @@ export function Parade() {
       if (cancelled) return;
       gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
       el.dataset.mode = "motion";
+      // iPhones/iPads (every iOS browser is WebKit) get still frames crossfaded on scroll instead of scrubbed video:
+      // iOS limits loaded videos, blocks loading in Low Power Mode and can reload pages holding several decoders.
+      const IOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+      if (IOS) el.dataset.ios = "";
 
       // Rest position of the clips, measured from the copy around them.
       // "side": wide screens with room beside the info block; the fish sits centred in that space.
@@ -95,6 +99,7 @@ export function Parade() {
         place();
         const fishes = gsap.utils.toArray<HTMLElement>(".parade__fish", el);
         const videos = gsap.utils.toArray<HTMLVideoElement>(".clip video", el);
+        const stills = gsap.utils.toArray<HTMLElement>(".clip__still", el);
         const splits = gsap.utils.toArray<HTMLElement>(".clip", el).map((c) => c.querySelectorAll<HTMLElement>(".clip__tag"));
         const names = gsap.utils.toArray<HTMLElement>(".parade__name", el);
         const infos = gsap.utils.toArray<HTMLElement>(".parade__info", el);
@@ -127,13 +132,25 @@ export function Parade() {
         gsap.set(infos, { autoAlpha: 0, y: 24 });
         gsap.set(states, { autoAlpha: 0, x: -30 });
         gsap.set(splits.flatMap((s) => [...s]), { autoAlpha: 0, y: 10 });
+        if (IOS) gsap.set(stills, { opacity: 0 });
 
+        // per clip: puts the video on the frame the scroll position calls for (set in process())
+        const syncs: (() => void)[] = [];
         // load a clip just before it is needed rather than all of them up front
         const warm = (i: number) => {
+          if (IOS) return;
           const v = videos[i];
           if (v && v.preload !== "auto") {
             v.preload = "auto";
+            v.muted = true;
             v.load();
+            // iOS Safari only paints frames after a seek once a video has played; a muted play/pause unlocks it
+            v.play()
+              .then(() => {
+                v.pause();
+                syncs[i]?.();
+              })
+              .catch(() => {});
           }
         };
         warm(0);
@@ -173,6 +190,12 @@ export function Parade() {
         // The clip plays with the scroll: frost forms (frozen), or the tuna splits into
         // frozen half + pre-cooked loins (both). Scrolling back plays it in reverse.
         const process = (k: number, at: number) => {
+          tl.to(states[k], { autoAlpha: 1, x: 0, duration: PROCESS * 0.4, ease: "power2.out" }, at + PROCESS * 0.2);
+          if (splits[k].length) tl.to(splits[k], { autoAlpha: 1, y: 0, duration: PROCESS * 0.25, stagger: 0.05, ease: "power2.out" }, at + PROCESS * 0.75);
+          if (IOS) {
+            tl.fromTo(stills[k], { opacity: 0 }, { opacity: 1, duration: PROCESS, ease: "power1.inOut", immediateRender: false }, at);
+            return;
+          }
           const v = videos[k];
           const clock = { t: 0 };
           const sync = () => {
@@ -180,12 +203,11 @@ export function Parade() {
             const next = clock.t * (v.duration - 0.05);
             if (Math.abs(v.currentTime - next) > 1 / 40) v.currentTime = next;
           };
+          syncs[k] = sync;
           // a clip that loads after the scroll has passed it catches up to where it should be
           v.addEventListener("loadeddata", sync);
           offs.push(() => v.removeEventListener("loadeddata", sync));
           tl.fromTo(clock, { t: 0 }, { t: 1, duration: PROCESS, ease: "none", immediateRender: false, onUpdate: sync }, at);
-          tl.to(states[k], { autoAlpha: 1, x: 0, duration: PROCESS * 0.4, ease: "power2.out" }, at + PROCESS * 0.2);
-          if (splits[k].length) tl.to(splits[k], { autoAlpha: 1, y: 0, duration: PROCESS * 0.25, stagger: 0.05, ease: "power2.out" }, at + PROCESS * 0.75);
         };
 
         tl.addLabel("landing", 0);
@@ -306,7 +328,9 @@ export function Parade() {
                         : `${s.name} freezing as frost forms over it`
                     }
                   />
-                  {i === 0 && <img className="clip__still" src={media(s.slug, "-last.jpg")} alt="" />}
+                  {/* stills: the iPhone version (crossfaded, see IOS) and the reduced-motion end state */}
+                  <img className="clip__start" src={media(s.slug, "-first.jpg")} alt="" loading={i < 2 ? "eager" : "lazy"} />
+                  <img className="clip__still" src={media(s.slug, "-last.jpg")} alt="" loading={i < 2 ? "eager" : "lazy"} />
                   {s.clip.process === "both" && (
                     <>
                       <span className="clip__tag clip__tag--cooked">Pre-cooked loins</span>
