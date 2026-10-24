@@ -31,6 +31,12 @@ export function EnquiryForm() {
     setStatus("sending");
     try {
       const res = await fetch("/api/enquiry", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(d) });
+      // email sending not switched on yet: hand over to the buyer's email app, as before
+      if (res.status === 503) {
+        setStatus("idle");
+        window.location.href = `mailto:${site.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        return;
+      }
       if (!res.ok) throw new Error(String(res.status));
       setStatus("sent");
       form.reset();
