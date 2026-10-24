@@ -22,6 +22,76 @@ const media = (slug: string, part = "") => `/fish-video/${slug}${part}`;
 const FRAMES = 48;
 const frameSrc = (slug: string, f: number) => `/fish-frames/${slug}/${String(f + 1).padStart(2, "0")}.webp`;
 
+// iPhones/iPads (every iOS browser is WebKit) get a plain, unpinned list: the pinned scroll-driven sequence
+// jitters under iOS momentum scrolling and the sliding address bar. Each fish glides in as it enters the view and
+// plays its clip once as an image sequence drawn on a canvas (iOS also handles many <video>s poorly).
+const isIOS = () => /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+function iosList(el: HTMLElement) {
+  el.dataset.mode = "list";
+  el.dataset.ios = "";
+  const clips = [...el.querySelectorAll<HTMLElement>(".clip")];
+  const loaded: (HTMLImageElement[] | undefined)[] = [];
+  const load = (k: number) => {
+    const c = clips[k]?.querySelector<HTMLCanvasElement>(".clip__frames");
+    if (!c || loaded[k]) return;
+    loaded[k] = Array.from({ length: FRAMES }, (_, f) => {
+      const img = new Image();
+      img.decoding = "async";
+      img.src = frameSrc(c.dataset.slug!, f);
+      return img;
+    });
+  };
+  const play = (k: number) => {
+    const clip = clips[k];
+    const c = clip.querySelector<HTMLCanvasElement>(".clip__frames")!;
+    const g = c.getContext("2d")!;
+    const set = loaded[k]!;
+    const t0 = performance.now();
+    const DURATION = 1800;
+    const tick = (now: number) => {
+      const want = Math.min(FRAMES - 1, Math.floor(((now - t0) / DURATION) * FRAMES));
+      // nearest loaded frame at or before the one wanted, so a slow network never shows a gap
+      for (let f = want; f >= 0; f--) {
+        const img = set[f];
+        if (img.complete && img.naturalWidth) {
+          g.clearRect(0, 0, c.width, c.height);
+          g.drawImage(img, 0, 0, c.width, c.height);
+          break;
+        }
+      }
+      if (want < FRAMES - 1 || !(set[FRAMES - 1].complete && set[FRAMES - 1].naturalWidth)) requestAnimationFrame(tick);
+      else clip.classList.add("is-done");
+    };
+    requestAnimationFrame(tick);
+  };
+  // load a fish's frames as it approaches; glide it in and play its clip once it is well in view
+  const near = new IntersectionObserver(
+    (entries) => entries.forEach((e) => e.isIntersecting && load(clips.indexOf(e.target as HTMLElement))),
+    { rootMargin: "120% 0px" },
+  );
+  const seen = new IntersectionObserver(
+    (entries) =>
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        const k = clips.indexOf(e.target as HTMLElement);
+        seen.unobserve(e.target);
+        load(k);
+        (e.target as HTMLElement).closest(".parade__fish")!.classList.add("is-in");
+        window.setTimeout(() => play(k), 650);
+      }),
+    { threshold: 0.6 },
+  );
+  clips.forEach((c) => {
+    near.observe(c);
+    seen.observe(c);
+  });
+  return () => {
+    near.disconnect();
+    seen.disconnect();
+  };
+}
+
 export function Parade() {
   const root = useRef<HTMLElement>(null);
   const [active, setActive] = useState(0);
@@ -34,6 +104,7 @@ export function Parade() {
       el.dataset.mode = "static";
       return;
     }
+    if (isIOS()) return iosList(el);
     let ctx: { revert: () => void } | undefined;
     let cancelled = false;
     let onResize: (() => void) | undefined;
@@ -379,7 +450,7 @@ export function Parade() {
 
         <div className="parade__names" aria-hidden="true">
           {FISH.map((s, i) => (
-            <p key={s.slug} className="parade__name" data-first={i === 0 || undefined} style={{ ["--l" as string]: Math.max(...s.name.split(" ").map((w) => w.length)) }}>
+            <p key={s.slug} className="parade__name" data-first={i === 0 || undefined} style={{ ["--l" as string]: Math.max(...s.name.split(" ").map((w) => w.length)), order: i * 3 + 1 }}>
               {s.name}
             </p>
           ))}
@@ -389,7 +460,7 @@ export function Parade() {
 
         <div className="parade__fishes">
           {FISH.map((s, i) => (
-            <div key={s.slug} className={`parade__fish parade__fish--${s.slug}`} data-first={i === 0 || undefined}>
+            <div key={s.slug} className={`parade__fish parade__fish--${s.slug}`} data-first={i === 0 || undefined} style={{ order: i * 3 + 2 }}>
               <div className="parade__swim">
                 <div className="clip" data-process={s.clip.process}>
                   <video
@@ -447,7 +518,7 @@ export function Parade() {
           {FISH.map((s, i) => {
             const forms = s.clip.forms ?? s.forms;
             return (
-              <div key={s.slug} className="parade__info" data-first={i === 0 || undefined}>
+              <div key={s.slug} className="parade__info" data-first={i === 0 || undefined} style={{ order: i * 3 + 3 }}>
                 <p className="parade__state" data-process={s.clip.process}>
                   <Icon name="snow" />
                   Frozen

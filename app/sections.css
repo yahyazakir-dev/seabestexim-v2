@@ -412,9 +412,9 @@
 }
 
 /* before JS / without motion: show the landing state only */
-.parade:not([data-mode="motion"]) .parade__fish:not([data-first]),
-.parade:not([data-mode="motion"]) .parade__name,
-.parade:not([data-mode="motion"]) .parade__info {
+.parade:not([data-mode="motion"]):not([data-mode="list"]) .parade__fish:not([data-first]),
+.parade:not([data-mode="motion"]):not([data-mode="list"]) .parade__name,
+.parade:not([data-mode="motion"]):not([data-mode="list"]) .parade__info {
   opacity: 0;
   visibility: hidden;
 }
@@ -582,6 +582,90 @@
   }
   .parade__count {
     font-size: 0.95rem;
+  }
+}
+
+/* ================= iPhone list (Parade.tsx iosList) =================
+   No pinning: the hero, then each fish as its own block (name behind, fish, details). The three layers become one
+   column through display: contents + the inline `order` on each name / fish / info. */
+.parade[data-mode="list"] {
+  height: auto;
+  padding-bottom: 0;
+}
+.parade[data-mode="list"] .parade__stage {
+  position: relative;
+  height: auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: clamp(40px, 10vw, 80px);
+}
+.parade[data-mode="list"] .parade__names,
+.parade[data-mode="list"] .parade__fishes,
+.parade[data-mode="list"] .parade__infos {
+  display: contents;
+}
+.parade[data-mode="list"] .parade__glow,
+.parade[data-mode="list"] .parade__index,
+.parade[data-mode="list"] .parade__cue {
+  display: none;
+}
+.parade[data-mode="list"] .parade__hero {
+  position: relative;
+  inset: auto;
+  order: 0;
+  padding-top: calc(var(--header-h) + 40px);
+  padding-bottom: 8px;
+}
+.parade[data-mode="list"] .parade__name {
+  order: 1;
+  position: relative;
+  z-index: 0;
+  margin: clamp(40px, 12vw, 72px) 0 -0.55em;
+  padding-inline: 8px;
+  font-size: min(clamp(2.6rem, 17vw, 7rem), calc(96vw / (var(--l) * 0.8)));
+  color: rgb(122 232 226 / 0.2);
+}
+.parade[data-mode="list"] .parade__fish {
+  position: relative;
+  z-index: 1;
+  left: auto;
+  top: auto;
+  width: 118vw;
+  margin: 0 0 0 calc(50% - 59vw);
+  translate: none;
+  opacity: 0;
+  transform: translateX(-14%) rotate(-6deg);
+  transition: opacity 0.6s ease-out, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.parade[data-mode="list"] .parade__fish.is-in {
+  opacity: 1;
+  transform: none;
+}
+.parade[data-mode="list"] .parade__fish[data-first] .parade__swim {
+  translate: none;
+  scale: none;
+}
+.parade[data-mode="list"] .parade__info {
+  position: relative;
+  z-index: 1;
+  max-width: none;
+  padding-inline: var(--gutter);
+}
+.parade[data-mode="list"] .parade__note {
+  display: none;
+}
+.parade[data-mode="list"] .clip__tag {
+  transition: opacity 0.5s ease-out;
+}
+.parade[data-mode="list"] .clip.is-done .clip__tag {
+  opacity: 1;
+  visibility: visible;
+}
+@media (prefers-reduced-motion: reduce) {
+  .parade[data-mode="list"] .parade__fish {
+    opacity: 1;
+    transform: none;
   }
 }
 
