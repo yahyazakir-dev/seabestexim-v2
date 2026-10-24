@@ -18,6 +18,9 @@ const TOTAL = PROCESS + (FISH.length - 1) * SEG;
 const restAt = (i: number) => PROCESS + i * SEG;
 
 const media = (slug: string, part = "") => `/fish-video/${slug}${part}`;
+// iPhone image sequences: public/fish-frames/<slug>/01.webp … 48.webp, extracted from the clips
+const FRAMES = 48;
+const frameSrc = (slug: string, f: number) => `/fish-frames/${slug}/${String(f + 1).padStart(2, "0")}.webp`;
 
 export function Parade() {
   const root = useRef<HTMLElement>(null);
@@ -44,8 +47,8 @@ export function Parade() {
       if (cancelled) return;
       gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
       el.dataset.mode = "motion";
-      // iPhones/iPads (every iOS browser is WebKit) get still frames crossfaded on scroll instead of scrubbed video:
-      // iOS limits loaded videos, blocks loading in Low Power Mode and can reload pages holding several decoders.
+      // iPhones/iPads (every iOS browser is WebKit) get the clip as an image sequence drawn on a canvas instead of
+      // scrubbed video: iOS limits loaded videos, blocks loading in Low Power Mode and reloads pages holding several decoders.
       const IOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
       if (IOS) el.dataset.ios = "";
 
@@ -104,7 +107,43 @@ export function Parade() {
         place();
         const fishes = gsap.utils.toArray<HTMLElement>(".parade__fish", el);
         const videos = gsap.utils.toArray<HTMLVideoElement>(".clip video", el);
-        const stills = gsap.utils.toArray<HTMLElement>(".clip__still", el);
+        const canvases = gsap.utils.toArray<HTMLCanvasElement>(".clip__frames", el);
+        // iOS image sequences: frames load per clip just before it is needed, like the videos elsewhere
+        const frames: (HTMLImageElement[] | undefined)[] = [];
+        const shown: number[] = [];
+        const want: number[] = [];
+        const draw = (k: number) => {
+          const set = frames[k];
+          if (!set) return;
+          // nearest frame that has loaded, so fast scrolling never shows a gap
+          for (let d = 0; d < FRAMES; d++) {
+            for (const f of [want[k] - d, want[k] + d]) {
+              const img = set[f];
+              if (img?.complete && img.naturalWidth) {
+                if (shown[k] !== f) {
+                  const c = canvases[k];
+                  const g = c.getContext("2d")!;
+                  g.clearRect(0, 0, c.width, c.height);
+                  g.drawImage(img, 0, 0, c.width, c.height);
+                  shown[k] = f;
+                }
+                return;
+              }
+            }
+          }
+        };
+        const loadFrames = (k: number) => {
+          if (frames[k] || !canvases[k]) return;
+          const slug = canvases[k].dataset.slug!;
+          want[k] ??= 0;
+          frames[k] = Array.from({ length: FRAMES }, (_, f) => {
+            const img = new Image();
+            img.decoding = "async";
+            img.onload = () => draw(k);
+            img.src = frameSrc(slug, f);
+            return img;
+          });
+        };
         const splits = gsap.utils.toArray<HTMLElement>(".clip", el).map((c) => c.querySelectorAll<HTMLElement>(".clip__tag"));
         const names = gsap.utils.toArray<HTMLElement>(".parade__name", el);
         const infos = gsap.utils.toArray<HTMLElement>(".parade__info", el);
@@ -137,13 +176,12 @@ export function Parade() {
         gsap.set(infos, { autoAlpha: 0, y: 24 });
         gsap.set(states, { autoAlpha: 0, x: -30 });
         gsap.set(splits.flatMap((s) => [...s]), { autoAlpha: 0, y: 10 });
-        if (IOS) gsap.set(stills, { opacity: 0 });
 
         // per clip: puts the video on the frame the scroll position calls for (set in process())
         const syncs: (() => void)[] = [];
         // load a clip just before it is needed rather than all of them up front
         const warm = (i: number) => {
-          if (IOS) return;
+          if (IOS) return loadFrames(i);
           const v = videos[i];
           if (v && v.preload !== "auto") {
             v.preload = "auto";
@@ -201,7 +239,12 @@ export function Parade() {
           tl.to(states[k], { autoAlpha: 1, x: 0, duration: PROCESS * 0.4, ease: "power2.out" }, at + PROCESS * 0.2);
           if (splits[k].length) tl.to(splits[k], { autoAlpha: 1, y: 0, duration: PROCESS * 0.25, stagger: 0.05, ease: "power2.out" }, at + PROCESS * 0.75);
           if (IOS) {
-            tl.fromTo(stills[k], { opacity: 0 }, { opacity: 1, duration: PROCESS, ease: "power1.inOut", immediateRender: false }, at);
+            const clock = { t: 0 };
+            const step = () => {
+              want[k] = Math.round(clock.t * (FRAMES - 1));
+              draw(k);
+            };
+            tl.fromTo(clock, { t: 0 }, { t: 1, duration: PROCESS, ease: "none", immediateRender: false, onUpdate: step }, at);
             return;
           }
           const v = videos[k];
@@ -337,9 +380,11 @@ export function Parade() {
                         : `${s.name} freezing as frost forms over it`
                     }
                   />
-                  {/* stills: the iPhone version (crossfaded, see IOS) and the reduced-motion end state */}
+                  {/* iPhone: first frame shows until the frame sequence draws over it on the canvas (see IOS) */}
                   <img className="clip__start" src={media(s.slug, "-first.jpg")} alt="" loading={i < 2 ? "eager" : "lazy"} />
-                  <img className="clip__still" src={media(s.slug, "-last.jpg")} alt="" loading={i < 2 ? "eager" : "lazy"} />
+                  <canvas className="clip__frames" data-slug={s.slug} width={960} height={540} aria-hidden="true" />
+                  {/* reduced motion: the finished state */}
+                  {i === 0 && <img className="clip__still" src={media(s.slug, "-last.jpg")} alt="" />}
                   {s.clip.process === "both" && (
                     <>
                       <span className="clip__tag clip__tag--cooked">Pre-cooked loins</span>

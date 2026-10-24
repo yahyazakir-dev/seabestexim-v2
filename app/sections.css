@@ -151,6 +151,7 @@
 }
 .clip video,
 .clip__start,
+.clip__frames,
 .clip__still {
   position: absolute;
   inset: 0;
@@ -161,6 +162,7 @@
   mask-image: radial-gradient(ellipse 48% 46% at 50% 52%, #000 58%, transparent 100%);
 }
 .clip__start,
+.clip__frames,
 .clip__still {
   display: none;
 }
@@ -169,12 +171,8 @@
   display: none;
 }
 .parade[data-ios] .clip__start,
-.parade[data-ios] .clip__still {
+.parade[data-ios] .clip__frames {
   display: block;
-}
-/* start hidden; the scroll timeline reveals them (so an interrupted animation still shows the plain fish) */
-.parade[data-ios] .clip__still {
-  opacity: 0;
 }
 .parade[data-mode="motion"] .clip__tag {
   opacity: 0;
