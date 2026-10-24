@@ -37,7 +37,6 @@ export function Parade() {
     let ctx: { revert: () => void } | undefined;
     let cancelled = false;
     let onResize: (() => void) | undefined;
-    let stopNormalize: (() => void) | undefined;
 
     (async () => {
       const [{ gsap }, { ScrollTrigger }, { MotionPathPlugin }] = await Promise.all([
@@ -51,13 +50,7 @@ export function Parade() {
       // iPhones/iPads (every iOS browser is WebKit) get the clip as an image sequence drawn on a canvas instead of
       // scrubbed video: iOS limits loaded videos, blocks loading in Low Power Mode and reloads pages holding several decoders.
       const IOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-      if (IOS) {
-        el.dataset.ios = "";
-        // iOS runs momentum scrolling off the main thread, so scrubbed animation lags and jumps (worse while the address
-        // bar slides). normalizeScroll moves iOS scrolling onto the JS thread so scroll and animation stay in step.
-        ScrollTrigger.normalizeScroll(true);
-        stopNormalize = () => ScrollTrigger.normalizeScroll(false);
-      }
+      if (IOS) el.dataset.ios = "";
 
       // Rest position of the clips, measured from the copy around them.
       // "side": wide screens with room beside the info block; the fish sits centred in that space.
@@ -217,28 +210,52 @@ export function Parade() {
           );
         if (intro) gsap.from(".parade__hero > *", { autoAlpha: 0, y: 30, filter: "blur(8px)", duration: 1.2, stagger: 0.12, ease: "power3.out", delay: 0.15 });
 
+        const follow = (self: { progress: number }) => {
+          const t = self.progress * TOTAL;
+          const i = Math.max(0, Math.min(N - 1, Math.round((t - PROCESS) / SEG)));
+          setActive(i);
+          warm(i);
+          warm(i + 1);
+          warm(i + 2);
+          return t;
+        };
+        // the stage stays pinned for (section height - stage height); measured from the stage, not the screen,
+        // so mobile address bars (and the strip under the stage) can't shift where the sequence ends
+        const pin = { trigger: el, start: "top top", end: () => `+=${pinSpan()}`, invalidateOnRefresh: true };
+
+        // Desktop/Android: the timeline is scrubbed by the scroll position and snaps to each fish.
+        // iOS: momentum scrolling reports positions unevenly (more so while the address bar slides), so a scrubbed
+        // sequence jitters. There the scroll only picks which fish is current and the timeline plays to it on its own clock.
         const tl = gsap.timeline({
           defaults: { ease: "none" },
-          scrollTrigger: {
-            trigger: el,
-            start: "top top",
-            // the stage stays pinned for (section height - stage height); measured from the stage, not the screen,
-            // so mobile address bars (and the strip under the stage) can't shift where the sequence ends
-            end: () => `+=${pinSpan()}`,
-            scrub: 0.9,
-            invalidateOnRefresh: true,
-            // no snapping on iOS: programmatic scroll fights Safari's momentum scrolling and makes the fish jump
-            snap: IOS ? undefined : { snapTo: "labels", inertia: false, duration: { min: 0.3, max: 0.9 }, delay: 0.08, ease: "power2.inOut" },
-            onUpdate: (self) => {
-              const t = self.progress * TOTAL;
-              const i = Math.max(0, Math.min(N - 1, Math.round((t - PROCESS) / SEG)));
-              setActive(i);
-              warm(i);
-              warm(i + 1);
-              warm(i + 2);
-            },
-          },
+          paused: IOS,
+          scrollTrigger: IOS
+            ? undefined
+            : {
+                ...pin,
+                scrub: 0.9,
+                snap: { snapTo: "labels", inertia: false, duration: { min: 0.3, max: 0.9 }, delay: 0.08, ease: "power2.inOut" },
+                onUpdate: follow,
+              },
         });
+        let settle: (() => void) | undefined;
+        if (IOS) {
+          let target = "landing";
+          const st = ScrollTrigger.create({
+            ...pin,
+            onUpdate: (self) => {
+              const t = follow(self);
+              // switch fish halfway between two rest points, like a page turn
+              const label = t < PROCESS * 0.5 ? "landing" : `s${Math.max(0, Math.min(N - 1, Math.round((t - PROCESS) / SEG)))}`;
+              if (label === target) return;
+              target = label;
+              const distance = Math.abs(tl.labels[label] - tl.time());
+              tl.tweenTo(label, { duration: Math.min(3.2, Math.max(0.9, distance * 1.35)), ease: "power1.inOut", overwrite: true });
+            },
+          });
+          // a reload part-way down the page lands on the right fish straight away
+          settle = () => st.progress > 0 && st.vars.onUpdate?.(st);
+        }
 
         // The clip plays with the scroll: frost forms (frozen), or the tuna splits into
         // frozen half + pre-cooked loins (both). Scrolling back plays it in reverse.
@@ -310,6 +327,7 @@ export function Parade() {
           process(k, at + 0.7);
           tl.addLabel(`s${k}`, restAt(k));
         }
+        settle?.();
         return () => offs.forEach((off) => off());
       }, el);
 
@@ -333,7 +351,6 @@ export function Parade() {
     return () => {
       cancelled = true;
       if (onResize) window.removeEventListener("resize", onResize);
-      stopNormalize?.();
       ctx?.revert();
     };
   }, []);
