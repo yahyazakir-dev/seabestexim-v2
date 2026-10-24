@@ -62,7 +62,7 @@ export default function PrecookedPage() {
                 Four products, <span className="ink-accent">one clean process.</span>
               </span>
             }
-            aside={<Photo name="loins-bag" alt="Vacuum-packed pre-cooked tuna loins" sizes="(max-width: 900px) 100vw, 50vw" caption="Illustrative image" />}
+            aside={<Photo name="loins-bag" alt="Vacuum-packed pre-cooked tuna loins" sizes="(max-width: 900px) 100vw, 50vw" />}
           >
             <p className="lede">
               Pre-cooked loins save buyers the cooking, cleaning and waste handling, and arrive frozen in vacuum-sealed packs for
@@ -102,7 +102,6 @@ export default function PrecookedPage() {
             </li>
           ))}
         </ol>
-        <p className="wrap process__note">Photographs are illustrative.</p>
       </section>
 
       <section className="section section--tight uses" aria-labelledby="uses-h">

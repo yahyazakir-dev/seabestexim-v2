@@ -24,8 +24,8 @@ npm run preview      # serve out/ on http://localhost:4000
 
 ## Assets
 
-- Fish illustrations are generated SVGs: edit `scripts/fish/species.ts`, then
-  `node --experimental-strip-types scripts/build-fish.ts` (add `--preview` for a contact sheet in `.impeccable/`).
+- Fish are real photographs (Wikimedia Commons, cut out) in `public/fish-photo/`, and the homepage parade
+  plays Veo clips from `public/fish-video/`. How both were made: `scripts/fish-video/README.md`.
 - Photos: put originals in `scripts/src-photos/`, then `npm run images` to write WebP sizes to `public/img/` and `lib/images.json`.
 - Favicons and the social image: `node scripts/brand-assets.mjs`.
 

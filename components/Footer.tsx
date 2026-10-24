@@ -23,7 +23,7 @@ export function Footer() {
               <li><Link href="/frozen-seafood/">Frozen seafood</Link></li>
               <li><Link href="/pre-cooked-tuna/">Pre-cooked tuna loins &amp; flakes</Link></li>
               <li><Link href="/pet-food/">Pet-food tuna</Link></li>
-              <li><Link href="/frozen-seafood/#value-added">Cubes &amp; steaks</Link></li>
+              <li><Link href="/cubes-steaks/">Cubes &amp; steaks</Link></li>
             </ul>
           </div>
           <div>

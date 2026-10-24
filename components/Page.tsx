@@ -55,7 +55,7 @@ export function SpeciesCard({ s, i = 0 }: { s: Species; i?: number }) {
   return (
     <article className="sp" data-reveal={i % 3}>
       <div className="sp__art">
-        <Fish slug={s.slug} alt={`${s.name} (${s.latin}) illustration`} />
+        <Fish slug={s.slug} alt={`${s.name} (${s.latin})`} />
       </div>
       <h3 className="sp__name">{s.name}</h3>
       <p className="sp__latin">{s.latin}</p>

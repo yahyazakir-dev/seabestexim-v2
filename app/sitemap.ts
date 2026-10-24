@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/pre-cooked-tuna/", priority: 0.9 },
     { path: "/frozen-seafood/", priority: 0.9 },
     { path: "/pet-food/", priority: 0.8 },
+    { path: "/cubes-steaks/", priority: 0.8 },
     { path: "/about/", priority: 0.7 },
   ];
   return pages.map((p) => ({ url: `${site.url}${p.path}`, lastModified: new Date(), changeFrequency: "monthly", priority: p.priority }));

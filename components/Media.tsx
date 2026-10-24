@@ -1,4 +1,5 @@
 import images from "@/lib/images.json";
+import fishRatios from "@/lib/fish-photos.json";
 
 type Manifest = Record<string, { w: number; h: number; widths: number[] }>;
 const M = images as Manifest;
@@ -40,8 +41,23 @@ export function Photo({
   );
 }
 
-export function Fish({ slug, className, alt = "", eager = false }: { slug: string; className?: string; alt?: string; eager?: boolean }) {
-  return <img className={className} src={`/fish/${slug}.svg`} alt={alt} loading={eager ? "eager" : "lazy"} decoding="async" draggable={false} />;
+// Real photograph of the species, cut out on transparent (public/fish-photo, see scripts/fish-video).
+export function Fish({ slug, className, alt = "", eager = false, sizes = "(max-width: 700px) 90vw, 33vw" }: { slug: string; className?: string; alt?: string; eager?: boolean; sizes?: string }) {
+  const ratio = (fishRatios as Record<string, number>)[slug] ?? 3;
+  return (
+    <img
+      className={className}
+      src={`/fish-photo/${slug}-1200.webp`}
+      srcSet={`/fish-photo/${slug}-640.webp 640w, /fish-photo/${slug}-1200.webp 1200w`}
+      sizes={sizes}
+      width={1200}
+      height={Math.round(1200 / ratio)}
+      alt={alt}
+      loading={eager ? "eager" : "lazy"}
+      decoding="async"
+      draggable={false}
+    />
+  );
 }
 
 // Bathymetric contour lines: the sea-chart texture used on dark grounds.

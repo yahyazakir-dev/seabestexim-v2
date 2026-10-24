@@ -8,6 +8,8 @@
   position: sticky;
   top: 0;
   height: 100svh;
+  /* follow the visible height as mobile address bars slide away, so the next (white) section never peeks in */
+  height: 100dvh;
   min-height: 520px;
   overflow: hidden;
   isolation: isolate;
@@ -976,11 +978,23 @@
   color: var(--ink-2);
 }
 @media (max-width: 860px) {
+  /* stacked: photo centred with the text centred beneath it */
   .leader {
     grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
   }
   .leader__photo {
-    max-width: 420px;
+    width: min(100%, 380px);
+    max-width: 380px;
+    margin-inline: auto;
+  }
+  .leader__text {
+    justify-items: center;
+  }
+  .leader__quote,
+  .leader__bio {
+    margin-inline: auto;
   }
 }
 
@@ -1122,6 +1136,27 @@
 .enquiry__note {
   font-size: 0.86rem;
   color: var(--ink-2);
+}
+.enquiry__error a {
+  color: inherit;
+  font-weight: 600;
+}
+/* honeypot: off-screen for people, still in the form for bots */
+.enquiry__trap {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.enquiry .btn[disabled] {
+  opacity: 0.7;
+  cursor: progress;
+}
+.enquiry--sent {
+  align-content: center;
+  min-height: 260px;
+  text-align: left;
 }
 @media (max-width: 960px) {
   .contact__inner {
@@ -1679,6 +1714,26 @@
     grid-template-columns: 1fr;
   }
 }
+/* cubes & steaks: the three portion types */
+.portions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: clamp(12px, 2vw, 22px);
+}
+.portion {
+  padding: clamp(20px, 2.4vw, 30px);
+  border-radius: var(--radius);
+  background: var(--white);
+  box-shadow: 0 1px 0 rgb(2 50 109 / 0.06), 0 24px 50px -36px rgb(1 15 43 / 0.5);
+}
+.portion .h-sm {
+  color: var(--navy);
+}
+.portion p {
+  margin-top: 8px;
+  color: var(--ink-2, var(--ink));
+}
+
 .cuts .h-lg {
   color: var(--white);
 }

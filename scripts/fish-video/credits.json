@@ -54,5 +54,61 @@
     "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
     "artist": "<a href=\"//commons.wikimedia.org/wiki/User:Hariprasad_Shetty10\" title=\"User:Hariprasad Shetty10\">Hariprasad Shetty10</a>",
     "credit": "<span class=\"int-own-work\" lang=\"en\">Own work</span>"
+  },
+  "marlin": {
+    "title": "File:Marlin bleu (Makaira nigricans) (Ifremer 00761-87302).jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Marlin_bleu_(Makaira_nigricans)_(Ifremer_00761-87302).jpg",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "artist": "Hugues Evano (IFREMER, D\u00e9l\u00e9gation oc\u00e9an Indien (DOI), D\u00e9partement Ressources Biologiques et Environnement (RBE), F-97420 Le Port, France)",
+    "credit": "<a rel=\"nofollow\" class=\"external text\" href=\"https://image.ifremer.fr/data/00761/87302\">Marlin bleu (Makaira nigricans)</a>"
+  },
+  "indian-mackerel": {
+    "title": "File:Rastrelliger kanagurta (USNM-445241).jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Rastrelliger_kanagurta_(USNM-445241).jpg",
+    "license": "Public domain",
+    "licenseUrl": null,
+    "artist": "The U.S. Food and Drug Administration",
+    "credit": "<a rel=\"nofollow\" class=\"external free\" href=\"https://www.flickr.com/photos/fdaphotos/53251504801/\">https://www.flickr.com/photos/fdaphotos/53251504801/</a>"
+  },
+  "sardine": {
+    "title": "File:Sardinelle queue noire (Sardinella melanura) (Ifremer 00762-87433).jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Sardinelle_queue_noire_(Sardinella_melanura)_(Ifremer_00762-87433).jpg",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "artist": "Ewen Le Moal (IFREMER, D\u00e9l\u00e9gation oc\u00e9an Indien (DOI), D\u00e9partement Ressources Biologiques et Environnement (RBE), F-97420 Le Port, France)",
+    "credit": "<a rel=\"nofollow\" class=\"external text\" href=\"https://image.ifremer.fr/data/00762/87433\">Sardinelle queue noire (Sardinella melanura)</a>"
+  },
+  "leatherjacket": {
+    "title": "File:Aluterus monoceros 270850876.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Aluterus_monoceros_270850876.jpg",
+    "license": "CC0",
+    "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "artist": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.inaturalist.org/users/2431441\">Fernando Sessegolo</a>",
+    "credit": "<a rel=\"nofollow\" class=\"external free\" href=\"https://www.inaturalist.org/photos/270850876\">https://www.inaturalist.org/photos/270850876</a>"
+  },
+  "grouper": {
+    "title": "File:M\u00e9rou a\u00e9rol\u00e9 (Epinephelus areolatus) (Ifremer 00764-87551).jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:M%C3%A9rou_a%C3%A9rol%C3%A9_(Epinephelus_areolatus)_(Ifremer_00764-87551).jpg",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "artist": "Hugues Evano (IFREMER, D\u00e9l\u00e9gation oc\u00e9an Indien (DOI), D\u00e9partement Ressources Biologiques et Environnement (RBE), F-97420 Le Port, France)",
+    "credit": "<a rel=\"nofollow\" class=\"external text\" href=\"https://image.ifremer.fr/data/00764/87551\">M\u00e9rou a\u00e9rol\u00e9 (Epinephelus areolatus)</a>"
+  },
+  "emperor": {
+    "title": "File:Capitaine mashena (Lethrinus mahsena) (Ifremer 00531-64320).jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Capitaine_mashena_(Lethrinus_mahsena)_(Ifremer_00531-64320).jpg",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "artist": "Marc Taquet",
+    "credit": "<a rel=\"nofollow\" class=\"external text\" href=\"https://image.ifremer.fr/data/00531/64320\">Capitaine mashena (Lethrinus mahsena)</a>"
+  },
+  "threadfin-bream": {
+    "title": "File:Nemipterus japonicus mangaluru.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Nemipterus_japonicus_mangaluru.jpg",
+    "license": "CC0",
+    "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "artist": "<a href=\"//commons.wikimedia.org/wiki/User:Hariprasad_Shetty10\" title=\"User:Hariprasad Shetty10\">Hariprasad Shetty10</a>",
+    "credit": "<span class=\"int-own-work\" lang=\"en\">Own work</span>"
   }
 }

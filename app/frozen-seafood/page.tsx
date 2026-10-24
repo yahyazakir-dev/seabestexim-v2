@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { Icon } from "@/components/Icon";
 import { Faq, PageHero, SpeciesCard, Split } from "@/components/Page";
 import { ContactBand } from "@/components/Sections";
 import { Photo } from "@/components/Media";
-import { FORM_GLOSSARY, frozenAlso, frozenMain, valueAdded } from "@/content/products";
+import { FORM_GLOSSARY, frozenAlso, frozenMain } from "@/content/products";
 import { JsonLd, breadcrumbs, productList } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -78,32 +80,15 @@ export default function FrozenPage() {
                 Value-added <span className="accent">cubes &amp; steaks.</span>
               </>
             }
-            aside={<Photo name="frozen-loins" alt="Frozen raw tuna loins, vacuum packed for export" sizes="(max-width: 900px) 100vw, 50vw" caption="Illustrative image" />}
+            aside={<Photo name="frozen-loins" alt="Frozen raw tuna loins, vacuum packed for export" sizes="(max-width: 900px) 100vw, 50vw" />}
           >
             <p className="lede">
-              Skinless, boneless portions cut from premium species and frozen ready for food service, retail and further processing.
+              Skinless, boneless cubes, steaks and fillets of yellowfin tuna, swordfish, marlin, mahi-mahi, sailfish and red snapper,
+              cut and packed to your specification.
             </p>
-            <table className="spec">
-              <caption className="sr-only">Value-added frozen products</caption>
-              <thead>
-                <tr>
-                  <th scope="col">Species</th>
-                  <th scope="col">Cubes</th>
-                  <th scope="col">Steaks</th>
-                  <th scope="col">Fillet</th>
-                </tr>
-              </thead>
-              <tbody>
-                {valueAdded.map((v) => (
-                  <tr key={v.species}>
-                    <th scope="row">{v.species}</th>
-                    {["Cubes", "Steaks", "Fillet"].map((c) => (
-                      <td key={c}>{v.cuts.includes(c) ? <span className="yes">Available</span> : <span className="no">–</span>}</td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <Link className="btn" href="/cubes-steaks/">
+              See cubes &amp; steaks <Icon name="arrow" />
+            </Link>
           </Split>
         </div>
       </section>

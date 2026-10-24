@@ -57,7 +57,7 @@ export default function AboutPage() {
                 Every shipment, <span className="ink-accent">a lasting partnership.</span>
               </span>
             }
-            aside={<Photo name="reefer" alt="Reefer container being loaded with cartons for export" sizes="(max-width: 900px) 100vw, 50vw" caption="Illustrative image" />}
+            aside={<Photo name="reefer" alt="Reefer container being loaded with cartons for export" sizes="(max-width: 900px) 100vw, 50vw" />}
           >
             {commitment.map((p) => (
               <p key={p.slice(0, 20)} className="lede">

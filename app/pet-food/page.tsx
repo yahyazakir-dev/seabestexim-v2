@@ -99,7 +99,7 @@ export default function PetFoodPage() {
                 Know your <span className="accent">cuts.</span>
               </span>
             }
-            aside={<Photo name="loins-trimming" alt="Tuna loins being trimmed by hand" sizes="(max-width: 900px) 100vw, 50vw" caption="Illustrative image" />}
+            aside={<Photo name="loins-trimming" alt="Tuna loins being trimmed by hand" sizes="(max-width: 900px) 100vw, 50vw" />}
           >
             <dl className="cuts__list">
               {cuts.map((c) => (

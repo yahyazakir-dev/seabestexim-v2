@@ -35,7 +35,7 @@ export function ProductLines() {
       cls: "line--c",
     },
     {
-      href: "/frozen-seafood/#value-added",
+      href: "/cubes-steaks/",
       title: "Cubes & steaks",
       body: "Skinless, boneless cubes and steaks of yellowfin, swordfish, marlin, mahi-mahi, sailfish and red snapper.",
       meta: "Value added",
