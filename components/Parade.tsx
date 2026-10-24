@@ -19,10 +19,10 @@ const restAt = (i: number) => PROCESS + i * SEG;
 
 const media = (slug: string, part = "") => `/fish-video/${slug}${part}`;
 
-// iosMode picks the iPhone behaviour (homepage "stills"; /version1 "play", for side-by-side testing on iPhones):
-//   stills: each fish crossfades from its first to its last frame as the scroll passes (no video on iOS)
+// iosMode picks the iPhone behaviour (both tested on iPhone 16/17; "play" chosen for the live site):
 //   play:   each fish's video plays start to end when the scroll reaches it
-export function Parade({ iosMode = "stills" }: { iosMode?: "stills" | "play" }) {
+//   stills: each fish crossfades from its first to its last frame as the scroll passes (no video on iOS)
+export function Parade({ iosMode = "play" }: { iosMode?: "stills" | "play" }) {
   const root = useRef<HTMLElement>(null);
   const [active, setActive] = useState(0);
 
