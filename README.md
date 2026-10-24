@@ -37,9 +37,9 @@ Connect to Git → `seabestexim-v2`. Build command `npm run build`, output direc
 Option B, GitHub Actions: add repository secrets `CLOUDFLARE_API_TOKEN` (Pages: Edit) and `CLOUDFLARE_ACCOUNT_ID`, and create a
 Pages project named `seabestexim`. Every push deploys; `.github/workflows/deploy.yml`.
 
-Custom domain: Pages project → Custom domains → `seabestxm.com`. The canonical URL is set in `content/site.ts`.
+Custom domain: Pages project `seabestexim` → Custom domains → `seabestexim.com` (+ `www`). The canonical URL is set in `content/site.ts`.
 
 ## Still to confirm with the customer
 
 Search for `PLACEHOLDER`: street address, registration numbers, certifications, other directors' names and photos,
-real product photography (current photos are illustrative stand-ins), and the email domain (`seabestexim.com` vs `seabestxm.com`).
+and real product photography (current photos are illustrative stand-ins).

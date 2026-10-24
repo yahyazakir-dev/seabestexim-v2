@@ -2,7 +2,7 @@
 export const site = {
   name: "Sea Best Exim",
   legalName: "Sea Best Exim Private Limited",
-  url: "https://seabestxm.com",
+  url: "https://seabestexim.com",
   phone: "+91 90379 90827",
   phoneHref: "tel:+919037990827",
   whatsappHref: "https://wa.me/919037990827",

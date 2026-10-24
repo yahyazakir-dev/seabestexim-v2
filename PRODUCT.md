@@ -30,7 +30,7 @@ Primary categories: frozen seafood and pre-cooked tuna. Also pet-food tuna (froz
 
 - Product range is fixed by the customer's product list (`content/products.ts`, from Product_lists.docx).
 - No own-facility claims: no plant, capacity, staff or certification figures until the customer confirms them.
-- Phone: +91 90379 90827. Email: info@seabestexim.com. Intended domain: seabestxm.com.
+- Phone: +91 90379 90827. Email: info@seabestexim.com. Domain: seabestexim.com (Cloudflare Pages project "seabestexim"; www redirects to the apex).
 - Street address, registration numbers (CIN, GSTIN, IEC, FSSAI, MPEDA) and certifications are undecided; city shown as Kochi, Kerala, India (unconfirmed).
 
 ## Brand Commitments
