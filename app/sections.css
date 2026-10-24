@@ -1,15 +1,18 @@
 /* ================= parade (home hero + swim sequence) ================= */
 .parade {
   position: relative;
+  height: calc(var(--n) * 100vh);  /* fallback for iOS < 15.4 */
   height: calc(var(--n) * 100svh);
   /* when a phone's address bar hides, the screen grows past the (fixed, svh) stage; this dark strip fills it so the
      white section below never shows. A fixed size, unlike dvh, which resized the stage mid-scroll and made it jump. */
+  padding-bottom: calc(100vh - 100vh);  /* fallback for iOS < 15.4 */
   padding-bottom: calc(100lvh - 100svh);
   background: var(--abyss);
 }
 .parade__stage {
   position: sticky;
   top: 0;
+  height: 100vh;  /* fallback for iOS < 15.4 */
   height: 100svh;
   min-height: 520px;
   overflow: hidden;
@@ -56,6 +59,7 @@
 }
 @keyframes rise {
   to {
+    transform: translate(calc((var(--i) * 17 % 40 - 20) * 1px), -110vh);  /* fallback for iOS < 15.4 */
     transform: translate(calc((var(--i) * 17 % 40 - 20) * 1px), -110svh);
     opacity: 0;
   }
@@ -64,6 +68,7 @@
 /* species names, set huge behind the fish */
 .parade__names {
   position: absolute;
+  inset: calc(var(--header-h) + clamp(16px, 4vh, 48px)) 0 auto;  /* fallback for iOS < 15.4 */
   inset: calc(var(--header-h) + clamp(16px, 4svh, 48px)) 0 auto;
   display: grid;
   justify-items: center;
@@ -100,6 +105,7 @@
   will-change: transform;
 }
 .parade__fish[data-first] .parade__swim {
+  translate: 0 10vh;  /* fallback for iOS < 15.4 */
   translate: 0 10svh;
 }
 /* stacked layout (set by Parade.tsx when there is no room beside the info): the fish is the hero
@@ -127,6 +133,7 @@
   display: none;
 }
 .parade[data-layout="stacked"] .parade__glow {
+  width: min(96vw, 70vh);  /* fallback for iOS < 15.4 */
   width: min(96vw, 70svh);
 }
 
@@ -135,6 +142,7 @@
   position: absolute;
   left: var(--fx, 65%);
   top: var(--fy, 56%);
+  width: min(58vw, 74vh);  /* fallback for iOS < 15.4 */
   width: min(58vw, 74svh);
   aspect-ratio: 1;
   translate: -50% -50%;
@@ -144,6 +152,14 @@
 }
 
 /* one fish clip: a Veo video scrubbed by the scroll, its navy edges faded into the page */
+/* iOS < 15 has no aspect-ratio: hold the 16:9 box open with padding instead */
+@supports not (aspect-ratio: 1 / 1) {
+  .clip::before {
+    content: "";
+    display: block;
+    padding-top: 56.25%;
+  }
+}
 .clip {
   position: relative;
   aspect-ratio: 16 / 9;
@@ -251,6 +267,7 @@
 
 .parade__hero {
   position: absolute;
+  inset: calc(var(--header-h) + clamp(28px, 7vh, 90px)) 0 auto;  /* fallback for iOS < 15.4 */
   inset: calc(var(--header-h) + clamp(28px, 7svh, 90px)) 0 auto;
   z-index: 2;
 }
@@ -263,6 +280,7 @@
   color: var(--white);
 }
 .parade__lede {
+  margin-top: clamp(14px, 2.4vh, 26px);  /* fallback for iOS < 15.4 */
   margin-top: clamp(14px, 2.4svh, 26px);
   max-width: 40ch;
   font-size: var(--step-1);
@@ -272,11 +290,13 @@
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  margin-top: clamp(18px, 3.4vh, 36px);  /* fallback for iOS < 15.4 */
   margin-top: clamp(18px, 3.4svh, 36px);
 }
 
 .parade__infos {
   position: absolute;
+  inset: auto 0 clamp(92px, 14vh, 150px);  /* fallback for iOS < 15.4 */
   inset: auto 0 clamp(92px, 14svh, 150px);
   z-index: 2;
   display: grid;
@@ -301,6 +321,7 @@
 
 .parade__index {
   position: absolute;
+  inset: auto 0 clamp(20px, 4vh, 40px);  /* fallback for iOS < 15.4 */
   inset: auto 0 clamp(20px, 4svh, 40px);
   z-index: 3;
   display: flex;
@@ -458,6 +479,7 @@
     display: none;
   }
   .parade__infos {
+    bottom: clamp(76px, 12vh, 120px);  /* fallback for iOS < 15.4 */
     bottom: clamp(76px, 12svh, 120px);
   }
   .parade__note {
@@ -1197,6 +1219,7 @@
 .phero {
   position: relative;
   overflow: hidden;
+  min-height: min(88vh, 860px);  /* fallback for iOS < 15.4 */
   min-height: min(88svh, 860px);
   display: flex;
   align-items: flex-end;

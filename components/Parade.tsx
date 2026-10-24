@@ -37,6 +37,7 @@ export function Parade() {
     let ctx: { revert: () => void } | undefined;
     let cancelled = false;
     let onResize: (() => void) | undefined;
+    let stopNormalize: (() => void) | undefined;
 
     (async () => {
       const [{ gsap }, { ScrollTrigger }, { MotionPathPlugin }] = await Promise.all([
@@ -50,7 +51,13 @@ export function Parade() {
       // iPhones/iPads (every iOS browser is WebKit) get the clip as an image sequence drawn on a canvas instead of
       // scrubbed video: iOS limits loaded videos, blocks loading in Low Power Mode and reloads pages holding several decoders.
       const IOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-      if (IOS) el.dataset.ios = "";
+      if (IOS) {
+        el.dataset.ios = "";
+        // iOS runs momentum scrolling off the main thread, so scrubbed animation lags and jumps (worse while the address
+        // bar slides). normalizeScroll moves iOS scrolling onto the JS thread so scroll and animation stay in step.
+        ScrollTrigger.normalizeScroll(true);
+        stopNormalize = () => ScrollTrigger.normalizeScroll(false);
+      }
 
       // Rest position of the clips, measured from the copy around them.
       // "side": wide screens with room beside the info block; the fish sits centred in that space.
@@ -326,6 +333,7 @@ export function Parade() {
     return () => {
       cancelled = true;
       if (onResize) window.removeEventListener("resize", onResize);
+      stopNormalize?.();
       ctx?.revert();
     };
   }, []);
