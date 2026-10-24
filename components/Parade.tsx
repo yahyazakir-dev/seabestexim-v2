@@ -18,79 +18,6 @@ const TOTAL = PROCESS + (FISH.length - 1) * SEG;
 const restAt = (i: number) => PROCESS + i * SEG;
 
 const media = (slug: string, part = "") => `/fish-video/${slug}${part}`;
-// iPhone image sequences: public/fish-frames/<slug>/01.webp … 48.webp, extracted from the clips
-const FRAMES = 48;
-const frameSrc = (slug: string, f: number) => `/fish-frames/${slug}/${String(f + 1).padStart(2, "0")}.webp`;
-
-// iPhones/iPads (every iOS browser is WebKit) get a plain, unpinned list: the pinned scroll-driven sequence
-// jitters under iOS momentum scrolling and the sliding address bar. Each fish glides in as it enters the view and
-// plays its clip once as an image sequence drawn on a canvas (iOS also handles many <video>s poorly).
-const isIOS = () => /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-
-function iosList(el: HTMLElement) {
-  el.dataset.mode = "list";
-  el.dataset.ios = "";
-  const clips = [...el.querySelectorAll<HTMLElement>(".clip")];
-  const loaded: (HTMLImageElement[] | undefined)[] = [];
-  const load = (k: number) => {
-    const c = clips[k]?.querySelector<HTMLCanvasElement>(".clip__frames");
-    if (!c || loaded[k]) return;
-    loaded[k] = Array.from({ length: FRAMES }, (_, f) => {
-      const img = new Image();
-      img.decoding = "async";
-      img.src = frameSrc(c.dataset.slug!, f);
-      return img;
-    });
-  };
-  const play = (k: number) => {
-    const clip = clips[k];
-    const c = clip.querySelector<HTMLCanvasElement>(".clip__frames")!;
-    const g = c.getContext("2d")!;
-    const set = loaded[k]!;
-    const t0 = performance.now();
-    const DURATION = 1800;
-    const tick = (now: number) => {
-      const want = Math.min(FRAMES - 1, Math.floor(((now - t0) / DURATION) * FRAMES));
-      // nearest loaded frame at or before the one wanted, so a slow network never shows a gap
-      for (let f = want; f >= 0; f--) {
-        const img = set[f];
-        if (img.complete && img.naturalWidth) {
-          g.clearRect(0, 0, c.width, c.height);
-          g.drawImage(img, 0, 0, c.width, c.height);
-          break;
-        }
-      }
-      if (want < FRAMES - 1 || !(set[FRAMES - 1].complete && set[FRAMES - 1].naturalWidth)) requestAnimationFrame(tick);
-      else clip.classList.add("is-done");
-    };
-    requestAnimationFrame(tick);
-  };
-  // load a fish's frames as it approaches; glide it in and play its clip once it is well in view
-  const near = new IntersectionObserver(
-    (entries) => entries.forEach((e) => e.isIntersecting && load(clips.indexOf(e.target as HTMLElement))),
-    { rootMargin: "120% 0px" },
-  );
-  const seen = new IntersectionObserver(
-    (entries) =>
-      entries.forEach((e) => {
-        if (!e.isIntersecting) return;
-        const k = clips.indexOf(e.target as HTMLElement);
-        seen.unobserve(e.target);
-        load(k);
-        (e.target as HTMLElement).closest(".parade__fish")!.classList.add("is-in");
-        window.setTimeout(() => play(k), 650);
-      }),
-    { threshold: 0.6 },
-  );
-  clips.forEach((c) => {
-    near.observe(c);
-    seen.observe(c);
-  });
-  return () => {
-    near.disconnect();
-    seen.disconnect();
-  };
-}
 
 export function Parade() {
   const root = useRef<HTMLElement>(null);
@@ -104,7 +31,6 @@ export function Parade() {
       el.dataset.mode = "static";
       return;
     }
-    if (isIOS()) return iosList(el);
     let ctx: { revert: () => void } | undefined;
     let cancelled = false;
     let onResize: (() => void) | undefined;
@@ -118,8 +44,8 @@ export function Parade() {
       if (cancelled) return;
       gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
       el.dataset.mode = "motion";
-      // iPhones/iPads (every iOS browser is WebKit) get the clip as an image sequence drawn on a canvas instead of
-      // scrubbed video: iOS limits loaded videos, blocks loading in Low Power Mode and reloads pages holding several decoders.
+      // iPhones/iPads (every iOS browser is WebKit) get still frames crossfaded on scroll instead of scrubbed video:
+      // iOS limits loaded videos, blocks loading in Low Power Mode and can reload pages holding several decoders.
       const IOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
       if (IOS) el.dataset.ios = "";
 
@@ -178,43 +104,7 @@ export function Parade() {
         place();
         const fishes = gsap.utils.toArray<HTMLElement>(".parade__fish", el);
         const videos = gsap.utils.toArray<HTMLVideoElement>(".clip video", el);
-        const canvases = gsap.utils.toArray<HTMLCanvasElement>(".clip__frames", el);
-        // iOS image sequences: frames load per clip just before it is needed, like the videos elsewhere
-        const frames: (HTMLImageElement[] | undefined)[] = [];
-        const shown: number[] = [];
-        const want: number[] = [];
-        const draw = (k: number) => {
-          const set = frames[k];
-          if (!set) return;
-          // nearest frame that has loaded, so fast scrolling never shows a gap
-          for (let d = 0; d < FRAMES; d++) {
-            for (const f of [want[k] - d, want[k] + d]) {
-              const img = set[f];
-              if (img?.complete && img.naturalWidth) {
-                if (shown[k] !== f) {
-                  const c = canvases[k];
-                  const g = c.getContext("2d")!;
-                  g.clearRect(0, 0, c.width, c.height);
-                  g.drawImage(img, 0, 0, c.width, c.height);
-                  shown[k] = f;
-                }
-                return;
-              }
-            }
-          }
-        };
-        const loadFrames = (k: number) => {
-          if (frames[k] || !canvases[k]) return;
-          const slug = canvases[k].dataset.slug!;
-          want[k] ??= 0;
-          frames[k] = Array.from({ length: FRAMES }, (_, f) => {
-            const img = new Image();
-            img.decoding = "async";
-            img.onload = () => draw(k);
-            img.src = frameSrc(slug, f);
-            return img;
-          });
-        };
+        const stills = gsap.utils.toArray<HTMLElement>(".clip__still", el);
         const splits = gsap.utils.toArray<HTMLElement>(".clip", el).map((c) => c.querySelectorAll<HTMLElement>(".clip__tag"));
         const names = gsap.utils.toArray<HTMLElement>(".parade__name", el);
         const infos = gsap.utils.toArray<HTMLElement>(".parade__info", el);
@@ -247,18 +137,19 @@ export function Parade() {
         gsap.set(infos, { autoAlpha: 0, y: 24 });
         gsap.set(states, { autoAlpha: 0, x: -30 });
         gsap.set(splits.flatMap((s) => [...s]), { autoAlpha: 0, y: 10 });
+        if (IOS) gsap.set(stills, { opacity: 0 });
 
         // per clip: puts the video on the frame the scroll position calls for (set in process())
         const syncs: (() => void)[] = [];
         // load a clip just before it is needed rather than all of them up front
         const warm = (i: number) => {
-          if (IOS) return loadFrames(i);
           const v = videos[i];
           if (v && v.preload !== "auto") {
             v.preload = "auto";
             v.muted = true;
             v.load();
-            // iOS Safari only paints frames after a seek once a video has played; a muted play/pause unlocks it
+            // iOS plays its clips end to end (see process); elsewhere a muted play/pause readies scrubbing
+            if (IOS) return;
             v.play()
               .then(() => {
                 v.pause();
@@ -281,52 +172,28 @@ export function Parade() {
           );
         if (intro) gsap.from(".parade__hero > *", { autoAlpha: 0, y: 30, filter: "blur(8px)", duration: 1.2, stagger: 0.12, ease: "power3.out", delay: 0.15 });
 
-        const follow = (self: { progress: number }) => {
-          const t = self.progress * TOTAL;
-          const i = Math.max(0, Math.min(N - 1, Math.round((t - PROCESS) / SEG)));
-          setActive(i);
-          warm(i);
-          warm(i + 1);
-          warm(i + 2);
-          return t;
-        };
-        // the stage stays pinned for (section height - stage height); measured from the stage, not the screen,
-        // so mobile address bars (and the strip under the stage) can't shift where the sequence ends
-        const pin = { trigger: el, start: "top top", end: () => `+=${pinSpan()}`, invalidateOnRefresh: true };
-
-        // Desktop/Android: the timeline is scrubbed by the scroll position and snaps to each fish.
-        // iOS: momentum scrolling reports positions unevenly (more so while the address bar slides), so a scrubbed
-        // sequence jitters. There the scroll only picks which fish is current and the timeline plays to it on its own clock.
         const tl = gsap.timeline({
           defaults: { ease: "none" },
-          paused: IOS,
-          scrollTrigger: IOS
-            ? undefined
-            : {
-                ...pin,
-                scrub: 0.9,
-                snap: { snapTo: "labels", inertia: false, duration: { min: 0.3, max: 0.9 }, delay: 0.08, ease: "power2.inOut" },
-                onUpdate: follow,
-              },
-        });
-        let settle: (() => void) | undefined;
-        if (IOS) {
-          let target = "landing";
-          const st = ScrollTrigger.create({
-            ...pin,
+          scrollTrigger: {
+            trigger: el,
+            start: "top top",
+            // the stage stays pinned for (section height - stage height); measured from the stage, not the screen,
+            // so mobile address bars (and the strip under the stage) can't shift where the sequence ends
+            end: () => `+=${pinSpan()}`,
+            scrub: 0.9,
+            invalidateOnRefresh: true,
+            // no snapping on iOS: programmatic scroll fights Safari's momentum scrolling and makes the fish jump
+            snap: IOS ? undefined : { snapTo: "labels", inertia: false, duration: { min: 0.3, max: 0.9 }, delay: 0.08, ease: "power2.inOut" },
             onUpdate: (self) => {
-              const t = follow(self);
-              // switch fish halfway between two rest points, like a page turn
-              const label = t < PROCESS * 0.5 ? "landing" : `s${Math.max(0, Math.min(N - 1, Math.round((t - PROCESS) / SEG)))}`;
-              if (label === target) return;
-              target = label;
-              const distance = Math.abs(tl.labels[label] - tl.time());
-              tl.tweenTo(label, { duration: Math.min(3.2, Math.max(0.9, distance * 1.35)), ease: "power1.inOut", overwrite: true });
+              const t = self.progress * TOTAL;
+              const i = Math.max(0, Math.min(N - 1, Math.round((t - PROCESS) / SEG)));
+              setActive(i);
+              warm(i);
+              warm(i + 1);
+              warm(i + 2);
             },
-          });
-          // a reload part-way down the page lands on the right fish straight away
-          settle = () => st.progress > 0 && st.vars.onUpdate?.(st);
-        }
+          },
+        });
 
         // The clip plays with the scroll: frost forms (frozen), or the tuna splits into
         // frozen half + pre-cooked loins (both). Scrolling back plays it in reverse.
@@ -334,12 +201,21 @@ export function Parade() {
           tl.to(states[k], { autoAlpha: 1, x: 0, duration: PROCESS * 0.4, ease: "power2.out" }, at + PROCESS * 0.2);
           if (splits[k].length) tl.to(splits[k], { autoAlpha: 1, y: 0, duration: PROCESS * 0.25, stagger: 0.05, ease: "power2.out" }, at + PROCESS * 0.75);
           if (IOS) {
-            const clock = { t: 0 };
-            const step = () => {
-              want[k] = Math.round(clock.t * (FRAMES - 1));
-              draw(k);
+            // iOS: no scrubbing. When the scroll reaches this fish its clip plays normally, start to end; scrolling
+            // back above it rewinds it. If iOS refuses to play (Low Power Mode), the finished frame fades in instead.
+            const v = videos[k];
+            const play = () => {
+              v.muted = true;
+              v.currentTime = 0;
+              v.playbackRate = 1.5; // ~5 s per fish, closer to the pace of the scrolled version
+              v.play()?.catch(() => gsap.to(stills[k], { opacity: 1, duration: 0.6 }));
             };
-            tl.fromTo(clock, { t: 0 }, { t: 1, duration: PROCESS, ease: "none", immediateRender: false, onUpdate: step }, at);
+            const rewind = () => {
+              v.pause();
+              v.currentTime = 0;
+              gsap.set(stills[k], { opacity: 0 });
+            };
+            tl.to({}, { duration: PROCESS, onStart: play, onReverseComplete: rewind }, at);
             return;
           }
           const v = videos[k];
@@ -398,7 +274,6 @@ export function Parade() {
           process(k, at + 0.7);
           tl.addLabel(`s${k}`, restAt(k));
         }
-        settle?.();
         return () => offs.forEach((off) => off());
       }, el);
 
@@ -450,7 +325,7 @@ export function Parade() {
 
         <div className="parade__names" aria-hidden="true">
           {FISH.map((s, i) => (
-            <p key={s.slug} className="parade__name" data-first={i === 0 || undefined} style={{ ["--l" as string]: Math.max(...s.name.split(" ").map((w) => w.length)), order: i * 3 + 1 }}>
+            <p key={s.slug} className="parade__name" data-first={i === 0 || undefined} style={{ ["--l" as string]: Math.max(...s.name.split(" ").map((w) => w.length)) }}>
               {s.name}
             </p>
           ))}
@@ -460,7 +335,7 @@ export function Parade() {
 
         <div className="parade__fishes">
           {FISH.map((s, i) => (
-            <div key={s.slug} className={`parade__fish parade__fish--${s.slug}`} data-first={i === 0 || undefined} style={{ order: i * 3 + 2 }}>
+            <div key={s.slug} className={`parade__fish parade__fish--${s.slug}`} data-first={i === 0 || undefined}>
               <div className="parade__swim">
                 <div className="clip" data-process={s.clip.process}>
                   <video
@@ -476,11 +351,9 @@ export function Parade() {
                         : `${s.name} freezing as frost forms over it`
                     }
                   />
-                  {/* iPhone: first frame shows until the frame sequence draws over it on the canvas (see IOS) */}
+                  {/* stills: the iPhone version (crossfaded, see IOS) and the reduced-motion end state */}
                   <img className="clip__start" src={media(s.slug, "-first.jpg")} alt="" loading={i < 2 ? "eager" : "lazy"} />
-                  <canvas className="clip__frames" data-slug={s.slug} width={960} height={540} aria-hidden="true" />
-                  {/* reduced motion: the finished state */}
-                  {i === 0 && <img className="clip__still" src={media(s.slug, "-last.jpg")} alt="" />}
+                  <img className="clip__still" src={media(s.slug, "-last.jpg")} alt="" loading={i < 2 ? "eager" : "lazy"} />
                   {s.clip.process === "both" && (
                     <>
                       <span className="clip__tag clip__tag--cooked">Pre-cooked loins</span>
@@ -518,7 +391,7 @@ export function Parade() {
           {FISH.map((s, i) => {
             const forms = s.clip.forms ?? s.forms;
             return (
-              <div key={s.slug} className="parade__info" data-first={i === 0 || undefined} style={{ order: i * 3 + 3 }}>
+              <div key={s.slug} className="parade__info" data-first={i === 0 || undefined}>
                 <p className="parade__state" data-process={s.clip.process}>
                   <Icon name="snow" />
                   Frozen
