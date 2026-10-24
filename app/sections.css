@@ -60,14 +60,13 @@
 /* species names, set huge behind the fish */
 .parade__names {
   position: absolute;
-  inset: 0;
+  inset: calc(var(--header-h) + clamp(16px, 4svh, 48px)) 0 auto;
   display: grid;
-  place-items: center;
+  justify-items: center;
   pointer-events: none;
 }
 .parade__name {
   grid-area: 1 / 1;
-  margin-top: -8svh;
   font-family: var(--font-display);
   font-weight: 700;
   font-size: min(clamp(3rem, 11.5vw, 13rem), calc(94vw / (var(--l) * 0.86)));
@@ -85,36 +84,139 @@
   inset: 0;
   pointer-events: none;
 }
+/* --fx/--fy/--fw are measured in Parade.tsx (place) from the copy around the fish */
 .parade__fish {
   position: absolute;
-  left: 50%;
-  top: 59%;
-  width: clamp(300px, 52vw, 1000px);
-  margin-left: calc(clamp(300px, 52vw, 1000px) / -2);
-  translate: 9vw -50%;
+  left: var(--fx, 65%);
+  top: var(--fy, 56%);
+  width: var(--fw, clamp(420px, 56vw, 1160px));
+  /* centred with margins (clip is 16:9): GSAP folds a CSS translate into its own transform and drops it */
+  margin-left: calc(var(--fw, clamp(420px, 56vw, 1160px)) / -2);
+  margin-top: calc(var(--fw, clamp(420px, 56vw, 1160px)) * -0.28125);
   will-change: transform;
 }
 .parade__fish[data-first] .parade__swim {
-  translate: 15vw 11svh;
+  translate: 0 10svh;
 }
-.parade__fish img {
-  width: 100%;
-  height: auto;
-  filter: drop-shadow(0 40px 40px rgb(0 6 20 / 0.55));
+/* stacked layout (set by Parade.tsx when there is no room beside the info): the fish is the hero
+   across the top and the species name sits behind it as texture; the info block reads below */
+.parade[data-layout="stacked"] .parade__names {
+  inset: auto 0;
+  top: var(--ny);
+  translate: 0 -50%;
+}
+.parade[data-layout="stacked"] .parade__name {
+  font-size: min(clamp(3rem, 17vw, 12rem), calc(98vw / (var(--l) * 0.8)));
+  color: rgb(122 232 226 / 0.2);
+}
+.parade[data-layout="stacked"] .parade__fish[data-first] {
+  top: var(--f0y);
+  width: var(--f0w);
+  margin-left: calc(var(--f0w) / -2);
+  margin-top: calc(var(--f0w) * -0.28125);
+}
+.parade[data-layout="stacked"] .parade__fish[data-first] .parade__swim {
+  translate: none;
+  scale: none;
+}
+.parade[data-layout="stacked"] .parade__note {
+  display: none;
+}
+.parade[data-layout="stacked"] .parade__glow {
+  width: min(96vw, 70svh);
+}
+
+/* soft disc behind the fish, after the reference's colour blob */
+.parade__glow {
+  position: absolute;
+  left: var(--fx, 65%);
+  top: var(--fy, 56%);
+  width: min(58vw, 74svh);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(4 201 193 / 0.2), rgb(31 122 224 / 0.1) 52%, transparent 70%);
+  pointer-events: none;
+}
+
+/* one fish clip: a Veo video scrubbed by the scroll, its navy edges faded into the page */
+.clip {
+  position: relative;
+  aspect-ratio: 16 / 9;
   animation: bob 4.5s ease-in-out infinite alternate;
 }
-.parade__fish--swordfish,
-.parade__fish--sailfish {
-  width: clamp(320px, 60vw, 1100px);
-  margin-left: calc(clamp(320px, 60vw, 1100px) / -2);
+.clip video,
+.clip__still {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  mask-image: radial-gradient(ellipse 48% 46% at 50% 52%, #000 58%, transparent 100%);
 }
-.parade__fish--ribbonfish {
-  width: clamp(340px, 70vw, 1200px);
-  margin-left: calc(clamp(340px, 70vw, 1200px) / -2);
+.clip__still {
+  display: none;
 }
-.parade__fish--red-snapper {
-  width: clamp(260px, 44vw, 820px);
-  margin-left: calc(clamp(260px, 44vw, 820px) / -2);
+/* tuna: where the frozen half and the pre-cooked loins sit in the frame */
+.clip__tag {
+  position: absolute;
+  top: 18%;
+  translate: -50% 0;
+  padding: 0.35em 0.8em;
+  border-radius: 999px;
+  background: rgb(4 30 70 / 0.6);
+  backdrop-filter: blur(6px);
+  font-family: var(--font-display);
+  font-size: clamp(0.62rem, 0.45rem + 0.5vw, 0.9rem);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.clip__tag--cooked {
+  left: 33%;
+  border: 1px solid rgb(255 190 140 / 0.5);
+  color: #ffd9b8;
+}
+.clip__tag--frozen {
+  left: 66%;
+  border: 1px solid rgb(160 230 255 / 0.45);
+  color: #d6f3ff;
+}
+
+/* process tag above each species heading: Frozen / Frozen + Pre-cooked */
+.parade__state {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  margin-bottom: 12px;
+  padding: 0.4em 0.85em 0.4em 0.7em;
+  border: 1px solid rgb(160 230 255 / 0.4);
+  border-radius: 999px;
+  background: rgb(4 30 70 / 0.55);
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #d6f3ff;
+}
+.parade__state[data-process="both"] {
+  border-color: rgb(255 190 140 / 0.5);
+  color: #ffd9b8;
+}
+.parade__state-plus {
+  opacity: 0.6;
+}
+.parade__state svg {
+  width: 1.15em;
+  height: 1.15em;
+}
+.parade__pack {
+  margin-top: 12px;
+  max-width: 40ch;
+  font-size: 0.85rem;
+  color: var(--on-dark-2);
 }
 @keyframes bob {
   from {
@@ -273,6 +375,16 @@
   opacity: 0;
   visibility: hidden;
 }
+/* without motion the landing tuna is shown split: frozen half + pre-cooked loins */
+.parade[data-mode="static"] .clip__still {
+  display: block;
+}
+.parade:not([data-mode="motion"]) .clip__tag {
+  opacity: 0;
+}
+.parade[data-mode="static"] .parade__fish[data-first] .clip__tag {
+  opacity: 1;
+}
 .parade[data-mode="static"] {
   height: auto;
 }
@@ -287,24 +399,28 @@
 /* portrait tablets and phones */
 @media (max-aspect-ratio: 1/1) {
   .parade__fish {
-    top: 63%;
-    width: 92vw;
-    margin-left: -46vw;
-    translate: 0 -50%;
-  }
-  .parade__fish--swordfish,
-  .parade__fish--sailfish,
-  .parade__fish--ribbonfish {
-    width: 100vw;
-    margin-left: -50vw;
-  }
-  .parade__fish--red-snapper {
-    width: 74vw;
-    margin-left: -37vw;
+    left: var(--fx, 50%);
+    top: var(--fy, 40%);
+    width: var(--fw, 106vw);
+    margin-left: calc(var(--fw, 106vw) / -2);
+    margin-top: calc(var(--fw, 106vw) * -0.28125);
   }
   .parade__name {
     font-size: min(clamp(2.6rem, 14vw, 8rem), calc(92vw / (var(--l) * 0.86)));
-    margin-top: -14svh;
+  }
+  .parade__glow {
+    left: var(--fx, 50%);
+    top: var(--fy, 40%);
+    width: 90vw;
+  }
+  .parade__state {
+    margin-bottom: 8px;
+    font-size: 0.66rem;
+  }
+  /* tuna labels sit above the fish on small frames */
+  .clip__tag {
+    top: 9%;
+    font-size: 0.56rem;
   }
   .parade__fish[data-first] {
     top: 80%;
@@ -365,12 +481,7 @@
   .parade__lede {
     display: none;
   }
-  .parade__fish {
-    top: 62%;
-    width: 46vw;
-    margin-left: -23vw;
-    translate: 16vw -50%;
-  }
+
   .parade__infos,
   .parade__note {
     display: none;
@@ -381,6 +492,52 @@
   .parade__index {
     bottom: 12px;
     padding-top: 10px;
+  }
+}
+
+.parade__lede-short {
+  display: none;
+}
+/* phones: tighter type and the short intro line */
+@media (max-width: 560px) {
+  .parade__title {
+    font-size: clamp(1.65rem, 0.9rem + 3.8vw, 2.2rem);
+    max-width: 14ch;
+  }
+  .parade__lede {
+    font-size: 0.95rem;
+  }
+  .parade__lede-long {
+    display: none;
+  }
+  .parade__lede-short {
+    display: inline;
+  }
+  .parade__ctas .btn {
+    padding-block: 0.8em;
+    font-size: 0.95rem;
+  }
+  .parade__info-name {
+    font-size: 1.3rem;
+  }
+  .parade__latin {
+    margin-top: 2px;
+    font-size: 0.85rem;
+  }
+  .parade__info .chips {
+    gap: 5px;
+  }
+  .parade__info .chip {
+    padding: 0.3em 0.7em;
+    font-size: 0.76rem;
+  }
+  .parade__pack {
+    margin-top: 8px;
+    font-size: 0.8rem;
+    line-height: 1.45;
+  }
+  .parade__count {
+    font-size: 0.95rem;
   }
 }
 

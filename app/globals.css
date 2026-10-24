@@ -420,25 +420,86 @@ html {
   }
 }
 @media (max-width: 560px) {
-  .brand__word {
-    width: 112px;
+  .brand {
+    gap: 7px;
   }
+  .brand__icon {
+    width: 34px;
+  }
+  .brand__word {
+    width: 108px;
+  }
+  /* phone: one round teal call button instead of the labelled pill */
   .call small,
   .call strong {
     display: none;
   }
   .call {
-    padding: 4px;
-    border-radius: 12px;
+    position: relative;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 50%;
+    background: linear-gradient(140deg, var(--teal), #27a8dc);
+    box-shadow: 0 8px 18px -8px rgb(4 201 193 / 0.8), inset 0 0 0 1px rgb(255 255 255 / 0.35);
+  }
+  .call:hover {
+    background: linear-gradient(140deg, #19d6ce, #3bb6e6);
   }
   .call__icon {
-    width: 40px;
-    height: 40px;
+    width: auto;
+    height: auto;
+    background: none;
+    color: var(--abyss);
+  }
+  .call__icon svg {
+    width: 19px;
+    height: 19px;
+  }
+  .call::after {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 2px solid rgb(4 201 193 / 0.55);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .menu-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
   }
 }
-@media (max-width: 340px) {
+@media (max-width: 560px) and (prefers-reduced-motion: no-preference) {
+  .call::after {
+    animation: call-ring 2.8s var(--ease-out) infinite;
+  }
+  @keyframes call-ring {
+    0% {
+      opacity: 0.9;
+      transform: scale(0.92);
+    }
+    70%,
+    100% {
+      opacity: 0;
+      transform: scale(1.35);
+    }
+  }
+}
+@media (max-width: 360px) {
+  .brand__icon {
+    width: 30px;
+  }
   .brand__word {
-    display: none;
+    width: 96px;
+  }
+  .header__bar {
+    padding-left: 10px;
+  }
+  .header__contact {
+    gap: 6px;
   }
 }
 

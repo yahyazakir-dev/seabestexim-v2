@@ -1,0 +1,58 @@
+{
+  "yellowfin-tuna": {
+    "title": "File:Thon albacore (Thunnus albacares) (Ifremer 00764-87616).jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Thon_albacore_(Thunnus_albacares)_(Ifremer_00764-87616).jpg",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "artist": "Hugues Evano (IFREMER, D\u00e9l\u00e9gation oc\u00e9an Indien (DOI), D\u00e9partement Ressources Biologiques et Environnement (RBE), F-97420 Le Port, France)",
+    "credit": "<a rel=\"nofollow\" class=\"external text\" href=\"https://image.ifremer.fr/data/00764/87616\">Thon albacore (Thunnus albacares)</a>"
+  },
+  "skipjack-tuna": {
+    "title": "File:Katsuwonus pelamis (USNM-443178).jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Katsuwonus_pelamis_(USNM-443178).jpg",
+    "license": "Public domain",
+    "licenseUrl": null,
+    "artist": "The U.S. Food and Drug Administration",
+    "credit": "<a rel=\"nofollow\" class=\"external free\" href=\"https://www.flickr.com/photos/fdaphotos/53251781073/\">https://www.flickr.com/photos/fdaphotos/53251781073/</a>"
+  },
+  "swordfish": {
+    "title": "File:Espadon (Xiphias gladius) (Ifremer 00764-87622).jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Espadon_(Xiphias_gladius)_(Ifremer_00764-87622).jpg",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "artist": "Hugues Evano (IFREMER, D\u00e9l\u00e9gation oc\u00e9an Indien (DOI), D\u00e9partement Ressources Biologiques et Environnement (RBE), F-97420 Le Port, France)",
+    "credit": "<a rel=\"nofollow\" class=\"external text\" href=\"https://image.ifremer.fr/data/00764/87622\">Espadon (Xiphias gladius)</a>"
+  },
+  "mahi-mahi": {
+    "title": "File:Coryph\u00e8ne commune (Coryphaena hippurus) (Ifremer 00763-87546).jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Coryph%C3%A8ne_commune_(Coryphaena_hippurus)_(Ifremer_00763-87546).jpg",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "artist": "Hugues Evano (IFREMER, D\u00e9l\u00e9gation oc\u00e9an Indien (DOI), D\u00e9partement Ressources Biologiques et Environnement (RBE), F-97420 Le Port, France)",
+    "credit": "<a rel=\"nofollow\" class=\"external text\" href=\"https://image.ifremer.fr/data/00763/87546\">Coryph\u00e8ne commune (Coryphaena hippurus)</a>"
+  },
+  "sailfish": {
+    "title": "File:Voilier de l'Indo-Pacifique (Istiophorus platypterus) (Ifremer 00761-87277).jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Voilier_de_l%27Indo-Pacifique_(Istiophorus_platypterus)_(Ifremer_00761-87277).jpg",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "artist": "Fanchon Varenne (IFREMER, D\u00e9l\u00e9gation oc\u00e9an Indien (DOI), D\u00e9partement Ressources Biologiques et Environnement (RBE), F-97420 Le Port, France)",
+    "credit": "<a rel=\"nofollow\" class=\"external text\" href=\"https://image.ifremer.fr/data/00761/87277\">Voilier de l'Indo-Pacifique (Istiophorus platypterus)</a>"
+  },
+  "red-snapper": {
+    "title": "File:Lutjanus on white background.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Lutjanus_on_white_background.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "<a href=\"//commons.wikimedia.org/wiki/User:Filo_g%C3%A8n%27\" title=\"User:Filo g\u00e8n'\">Filo g\u00e8n'</a>",
+    "credit": "<span class=\"int-own-work\" lang=\"en\">Own work</span>"
+  },
+  "ribbonfish": {
+    "title": "File:Trichiurus lepturus mangaluru.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Trichiurus_lepturus_mangaluru.jpg",
+    "license": "CC0",
+    "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "artist": "<a href=\"//commons.wikimedia.org/wiki/User:Hariprasad_Shetty10\" title=\"User:Hariprasad Shetty10\">Hariprasad Shetty10</a>",
+    "credit": "<span class=\"int-own-work\" lang=\"en\">Own work</span>"
+  }
+}
