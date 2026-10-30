@@ -19,7 +19,7 @@ The site is set under water. Deep-ocean navy grounds carry the hero, the swim se
 
 ## Type
 
-- Display: Unbounded Variable, weights 500–700, tracking −0.025 to −0.045em. Headlines, prices of attention, big contact details.
+- Display: Manrope Variable, weights 600–800, tracking −0.025 to −0.045em. Headlines and species names. (Replaced Unbounded on Oct 30 at the customer's request for a more professional face.)
 - Text: Onest Variable, 400–650. Body at `--step-0`, ledes at `--step-1`.
 - Fluid scale `--step--1` … `--step-5` (clamp-based). Display never exceeds ~6rem; species names behind the fish scale from their longest word so they never clip.
 

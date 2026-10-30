@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { nav, site } from "@/content/site";
+import { nav } from "@/content/site";
 import { Icon } from "./Icon";
+import { WhatsAppLink } from "./WhatsApp";
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -33,18 +34,7 @@ export function Header() {
           ))}
         </nav>
         <div className="header__contact">
-          <a className="call" href={site.phoneHref} aria-label={`Call ${site.phone}`}>
-            <span className="call__icon">
-              <Icon name="phone" />
-            </span>
-            <span>
-              <small>Talk to the directors</small>
-              <strong>{site.phone}</strong>
-            </span>
-          </a>
-          <a className="wa" href={site.whatsappHref} target="_blank" rel="noopener" aria-label="Message us on WhatsApp">
-            <Icon name="whatsapp" />
-          </a>
+          <WhatsAppLink />
           <button className="menu-btn" type="button" aria-expanded={open} aria-controls="site-nav" aria-label={open ? "Close menu" : "Open menu"} onClick={() => setOpen((o) => !o)}>
             <Icon name={open ? "close" : "menu"} />
           </button>

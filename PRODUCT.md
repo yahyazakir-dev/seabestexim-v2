@@ -30,7 +30,7 @@ Primary categories: frozen seafood and pre-cooked tuna. Also pet-food tuna (froz
 
 - Product range is fixed by the customer's product list (`content/products.ts`, from Product_lists.docx).
 - No own-facility claims: no plant, capacity, staff or certification figures until the customer confirms them.
-- Phone: +91 90379 90827. Email: info@seabestexim.com. Domain: seabestexim.com (Cloudflare Pages project "seabestexim"; www redirects to the apex).
+- Phone: +91 90379 90827 (Bilaal's), shown once only, in the footer; never in the header or calls to action. WhatsApp is the only contact button (green WhatsApp icon). Emails: info@ (general/enquiries), sales@, accounts@, bilaal@, talha@seabestexim.com (the last four assumed from the info@ pattern; to be confirmed). Domain: seabestexim.com (Cloudflare Pages project "seabestexim"; www redirects to the apex).
 - Street address, registration numbers (CIN, GSTIN, IEC, FSSAI, MPEDA) and certifications are undecided; city shown as Kochi, Kerala, India (unconfirmed).
 
 ## Brand Commitments
@@ -42,7 +42,7 @@ Logo in `public/brand/` (navy #02326d, teal #04c9c1, ocean blue gradient). Site 
 - Customer write-up "Why Choose Sea Best Exim" (8 points + Our Commitment): `content/company.ts`.
 - Product list: `content/products.ts`.
 - Photos: AI-generated stand-ins in `scripts/src-photos/` (from the previous site); label as illustrative until real photography exists.
-- Leadership: Bilaal Afzal, Managing Director (portrait is a stand-in). Other directors' names and photos not yet provided; do not invent them.
+- Leadership: two Directors, Bilaal Afzal and Talha Afzal (both "Director", never "Managing Director"). Shown as photo, name and designation only, under "Meet our directors".
 - No testimonials, customer names, volumes or certifications exist; do not fabricate them.
 
 ## Product Principles

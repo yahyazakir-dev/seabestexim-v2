@@ -22,7 +22,7 @@ export function Footer() {
             <ul>
               <li><Link href="/frozen-seafood/">Frozen seafood</Link></li>
               <li><Link href="/pre-cooked-tuna/">Pre-cooked tuna loins &amp; flakes</Link></li>
-              <li><Link href="/pet-food/">Pet-food tuna</Link></li>
+              <li><Link href="/pet-food/">Raw materials for pet food</Link></li>
               <li><Link href="/cubes-steaks/">Cubes &amp; steaks</Link></li>
             </ul>
           </div>
@@ -37,11 +37,15 @@ export function Footer() {
           </div>
           <div className="footer__contact">
             <h2 className="footer__h">Contact</h2>
-            <a className="footer__big" href={`mailto:${site.email}`}>
-              <Icon name="mail" />
-              {site.email}
-            </a>
-            <a className="footer__big num" href={site.phoneHref}>
+            <ul className="footer__mails">
+              {[{ label: "General", email: site.email }, ...site.emails].map((m) => (
+                <li key={m.email}>
+                  <span>{m.label}</span>
+                  <a href={`mailto:${m.email}`}>{m.email}</a>
+                </li>
+              ))}
+            </ul>
+            <a className="footer__phone num" href={site.phoneHref}>
               <Icon name="phone" />
               {site.phone}
             </a>

@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { commitment, leaders, reasons } from "@/content/company";
+import { leaders, reasons } from "@/content/company";
 import { site } from "@/content/site";
 import { EnquiryForm } from "./EnquiryForm";
+import { WhatsAppLink } from "./WhatsApp";
 import { Icon, type IconName } from "./Icon";
 import { Contours, Photo } from "./Media";
 
@@ -27,20 +28,20 @@ export function ProductLines() {
     },
     {
       href: "/pet-food/",
-      title: "Pet-food tuna",
-      body: "Black meat, belly, shaved and spoon meat from skipjack and yellowfin, frozen raw or cooked and vacuum packed.",
-      meta: "Raw & cooked",
-      photo: "flakes",
-      alt: "Tuna meat packed for pet-food manufacturing",
+      title: "Raw materials for pet food",
+      body: "Frozen and cooked tuna meat, frozen belly meat and other by-products from skipjack and yellowfin tuna.",
+      meta: "Frozen & cooked",
+      photo: "black-meat",
+      alt: "Frozen tuna meat packed in a block for pet food",
       cls: "line--c",
     },
     {
       href: "/cubes-steaks/",
       title: "Cubes & steaks",
-      body: "Skinless, boneless cubes and steaks of yellowfin, swordfish, marlin, mahi-mahi, sailfish and red snapper.",
+      body: "Skinless, boneless cubes, steaks and portions, plus skin-on and skinless fillets of mahi-mahi and red snapper.",
       meta: "Value added",
-      photo: "frozen-loins",
-      alt: "Frozen raw tuna loins, vacuum packed",
+      photo: "sailfish-cubes",
+      alt: "Frozen sailfish cubes, 35/45 g",
       cls: "line--d",
     },
   ];
@@ -77,7 +78,7 @@ export function ProductLines() {
 }
 
 const steps: { icon: IconName; title: string; body: string }[] = [
-  { icon: "phone", title: "Specification", body: "Species, size, grade, cut and packing agreed directly with a director." },
+  { icon: "mail", title: "Specification", body: "Species, size, grade, cut and packing agreed directly with a director." },
   { icon: "pin", title: "Sourcing", body: "Fish sourced through our partner network on India's coast." },
   { icon: "check", title: "Quality checks", body: "Product checked against the agreed specification before freezing." },
   { icon: "snow", title: "Freezing & storage", body: "Frozen and held in cold storage at −18 °C or colder." },
@@ -156,24 +157,19 @@ export function Reasons({ id }: { id?: string }) {
 export function Leadership({ id }: { id?: string }) {
   return (
     <section className="section leaders" id={id} aria-labelledby="lead-h">
-      <div className="wrap leaders__inner">
-        {leaders.map((l) => (
-          <article key={l.name} className="leader" data-reveal>
-            <Photo name={l.photo} alt={`${l.name}, ${l.role} of Sea Best Exim`} sizes="(max-width: 760px) 90vw, 36vw" className="leader__photo" />
-            <div className="leader__text">
-              <h2 id="lead-h" className="h-md">Led by directors who pick up the phone.</h2>
-              <blockquote className="leader__quote">
-                <p>“{commitment[0].split(". ")[0]}.”</p>
-              </blockquote>
+      <div className="wrap">
+        <h2 id="lead-h" className="h-lg leaders__h" data-reveal>
+          Meet our <span className="ink-accent">directors.</span>
+        </h2>
+        <ul className="leaders__grid">
+          {leaders.map((l, i) => (
+            <li key={l.name} className="leader" data-reveal={i}>
+              <Photo name={l.photo} alt={`${l.name}, ${l.role}, Sea Best Exim`} sizes="(max-width: 640px) 90vw, 40vw" className="leader__photo" />
               <p className="leader__name">{l.name}</p>
-              <p className="muted">{l.role}</p>
-              <p className="leader__bio">{l.bio}</p>
-              <a className="link-arrow" href={site.phoneHref}>
-                Call {site.phone} <Icon name="arrow" />
-              </a>
-            </div>
-          </article>
-        ))}
+              <p className="leader__role">{l.role}</p>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );
@@ -188,30 +184,23 @@ export function ContactBand({ id = "contact", title = "Tell us what you need to 
           <h2 id={`${id}-h`} className="h-lg">
             {title}
           </h2>
-          <p className="lede">Share the species, specification, volume and destination port. A director replies to every enquiry personally.</p>
-          <div className="contact__ways">
-            <a href={site.phoneHref} className="contact__way">
-              <Icon name="phone" />
-              <span>
-                <small>Call the directors</small>
-                <strong className="num">{site.phone}</strong>
-              </span>
-            </a>
-            <a href={site.whatsappHref} target="_blank" rel="noopener" className="contact__way">
-              <Icon name="whatsapp" />
-              <span>
-                <small>WhatsApp</small>
-                <strong className="num">{site.phone}</strong>
-              </span>
-            </a>
-            <a href={`mailto:${site.email}`} className="contact__way">
-              <Icon name="mail" />
-              <span>
-                <small>Email</small>
-                <strong>{site.email}</strong>
-              </span>
-            </a>
-          </div>
+          <p className="lede">Share the species, specification, volume and destination port. Our directors read every enquiry.</p>
+          <WhatsAppLink className="contact__wa">
+            <span>Chat with us on WhatsApp</span>
+          </WhatsAppLink>
+          <ul className="contact__mails">
+            {site.emails.map((m) => (
+              <li key={m.email}>
+                <a href={`mailto:${m.email}`} className="contact__way">
+                  <Icon name="mail" />
+                  <span>
+                    <small>{m.label}</small>
+                    <strong>{m.email}</strong>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
         <EnquiryForm />
       </div>

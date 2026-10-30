@@ -22,7 +22,7 @@
   --line-dark: rgb(169 205 235 / 0.16);
   --line-light: rgb(2 50 109 / 0.14);
 
-  --font-display: "Unbounded Variable", "Unbounded", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Manrope Variable", "Manrope", ui-sans-serif, system-ui, sans-serif;
   --font-text: "Onest Variable", "Onest", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 
   --gutter: clamp(1rem, 4vw, 3.5rem);
@@ -78,7 +78,7 @@ h2,
 h3,
 h4 {
   font-family: var(--font-display);
-  font-weight: 560;
+  font-weight: 700;
   line-height: 1.08;
   letter-spacing: -0.025em;
   margin: 0;
@@ -632,5 +632,60 @@ html {
     opacity: 1;
     transform: none;
     filter: none;
+  }
+}
+
+/* ---------- header, Oct 30 revision: larger company name, WhatsApp only ---------- */
+.brand__word {
+  width: 236px;
+}
+.header .wa,
+.wa {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #25d366;
+  color: #fff;
+  box-shadow: 0 8px 20px -10px rgb(37 211 102 / 0.9);
+  transition: transform 0.35s var(--ease-out), background-color 0.25s;
+}
+.header .wa:hover,
+.wa:hover {
+  background: #1ebe5b;
+  transform: scale(1.06);
+}
+.wa svg,
+.wa__glyph {
+  width: 28px;
+  height: 28px;
+}
+@media (max-width: 1180px) {
+  .brand__word {
+    width: 200px;
+  }
+  .header .wa {
+    display: grid;
+  }
+}
+@media (max-width: 1020px) {
+  .header .wa {
+    width: 46px;
+    height: 46px;
+  }
+  .wa svg {
+    width: 25px;
+    height: 25px;
+  }
+}
+@media (max-width: 560px) {
+  .brand__word {
+    width: 152px;
+  }
+}
+@media (max-width: 360px) {
+  .brand__word {
+    width: 126px;
   }
 }

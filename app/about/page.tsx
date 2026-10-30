@@ -91,12 +91,6 @@ export default function AboutPage() {
                 </span>
               </li>
               <li>
-                <Icon name="phone" />
-                <a href={site.phoneHref} className="num">
-                  {site.phone}
-                </a>
-              </li>
-              <li>
                 <Icon name="mail" />
                 <a href={`mailto:${site.email}`}>{site.email}</a>
               </li>

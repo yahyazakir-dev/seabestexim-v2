@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { parade, speciesBySlug } from "@/content/products";
 import { fishClips } from "@/content/fish-clips";
-import { site } from "@/content/site";
 import { Icon } from "./Icon";
 import { Contours } from "./Media";
 
@@ -112,6 +111,7 @@ export function Parade({ iosMode = "play" }: { iosMode?: "stills" | "play" }) {
         const names = gsap.utils.toArray<HTMLElement>(".parade__name", el);
         const infos = gsap.utils.toArray<HTMLElement>(".parade__info", el);
         const states = gsap.utils.toArray<HTMLElement>(".parade__state", el);
+        const tiles = infos.map((info) => info.querySelectorAll<HTMLElement>(".ptile"));
         const hero = el.querySelector<HTMLElement>(".parade__hero");
         const N = fishes.length;
         const offs: (() => void)[] = [];
@@ -139,6 +139,11 @@ export function Parade({ iosMode = "play" }: { iosMode?: "stills" | "play" }) {
         gsap.set(names, { autoAlpha: 0 });
         gsap.set(infos, { autoAlpha: 0, y: 24 });
         gsap.set(states, { autoAlpha: 0, x: -30 });
+        gsap.set(tiles.flatMap((t) => [...t]), { autoAlpha: 0, y: 18, scale: 0.92 });
+        // product tiles (fillets, cubes, portions) arrive after the species info, one by one
+        const showTiles = (k: number, at: number) => {
+          if (tiles[k]?.length) tl.to(tiles[k], { autoAlpha: 1, y: 0, scale: 1, duration: 0.3, stagger: 0.12, ease: "back.out(1.6)" }, at);
+        };
         gsap.set(splits.flatMap((s) => [...s]), { autoAlpha: 0, y: 10 });
         if (IOS) gsap.set(stills, { opacity: 0 });
 
@@ -257,6 +262,7 @@ export function Parade({ iosMode = "play" }: { iosMode?: "stills" | "play" }) {
           tl.to(swim0, { x: x1 - x0 - tx, y: y1 - y0 - ty, scale: fishes[1].offsetWidth / fishes[0].offsetWidth / s0, duration: PROCESS, ease: "power2.inOut", immediateRender: false }, 0);
         }
         process(0, 0.05);
+        showTiles(0, 0.45);
         tl.addLabel("s0", restAt(0));
 
         for (let k = 1; k < N; k++) {
@@ -279,7 +285,9 @@ export function Parade({ iosMode = "play" }: { iosMode?: "stills" | "play" }) {
             .to(infos[k - 1], { autoAlpha: 0, y: -20, duration: 0.25 }, at)
             .to(infos[k], { autoAlpha: 1, y: 0, duration: 0.35, ease: "power2.out" }, at + 0.62);
           if (splits[k - 1].length) tl.to(splits[k - 1], { autoAlpha: 0, duration: 0.2 }, at);
+          if (tiles[k - 1]?.length) tl.to(tiles[k - 1], { autoAlpha: 0, y: -12, duration: 0.2 }, at);
           process(k, at + 0.7);
+          showTiles(k, at + 0.9);
           tl.addLabel(`s${k}`, restAt(k));
         }
         return () => offs.forEach((off) => off());
@@ -380,7 +388,7 @@ export function Parade({ iosMode = "play" }: { iosMode?: "stills" | "play" }) {
           </h1>
           <p className="parade__lede">
             <span className="parade__lede-long">
-              Pre-cooked tuna loins and flakes, frozen whole fish, pet-food tuna and value-added cuts, sourced and shipped to your
+              Pre-cooked tuna loins and flakes, frozen whole fish, raw materials for pet food, fillets, cubes and portions, sourced and shipped to your
               specification with the directors on the line.
             </span>
             <span className="parade__lede-short">Pre-cooked tuna loins and frozen whole fish, packed to your specification.</span>
@@ -389,9 +397,6 @@ export function Parade({ iosMode = "play" }: { iosMode?: "stills" | "play" }) {
             <Link className="btn" href="/about/#contact">
               Send an enquiry <Icon name="arrow" />
             </Link>
-            <a className="btn btn--ghost" href={site.phoneHref}>
-              <Icon name="phone" /> {site.phone}
-            </a>
           </div>
         </div>
 
@@ -421,6 +426,16 @@ export function Parade({ iosMode = "play" }: { iosMode?: "stills" | "play" }) {
                     </li>
                   ))}
                 </ul>
+                {s.clip.products && (
+                  <ul className="parade__products" aria-label={`${s.name} products`}>
+                    {s.clip.products.map((p) => (
+                      <li key={p.img} className="ptile">
+                        <img src={`/img/${p.img}-640.webp`} alt={`${s.name}: ${p.label}`} loading="lazy" decoding="async" />
+                        <span>{p.label}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
                 <p className="parade__pack">{s.clip.pack}</p>
               </div>
             );

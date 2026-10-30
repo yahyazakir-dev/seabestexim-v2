@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { FORM_GLOSSARY, type Species } from "@/content/products";
-import { site } from "@/content/site";
 import { JsonLd, faqPage } from "@/lib/seo";
 import { Icon } from "./Icon";
 import { Contours, Fish } from "./Media";
@@ -41,9 +40,6 @@ export function PageHero({
           <Link className="btn" href="#enquire">
             Request a quote <Icon name="arrow" />
           </Link>
-          <a className="btn btn--ghost" href={site.whatsappHref} target="_blank" rel="noopener">
-            <Icon name="whatsapp" /> WhatsApp the directors
-          </a>
         </div>
         {children}
       </div>

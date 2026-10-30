@@ -7,27 +7,26 @@ import { petfood } from "@/content/products";
 import { JsonLd, breadcrumbs, productList } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Pet Food Tuna Supplier: Black Meat, Belly, Shaved & Spoon Meat",
+  title: "Raw Materials for Pet Food: Frozen & Cooked Tuna Meat, Belly Meat",
   description:
-    "Frozen raw and cooked skipjack and yellowfin tuna for pet-food manufacturers: black meat, belly meat, shaved meat and spoon meat, plus cooked black meat vacuum packed. Exported from India.",
+    "Raw materials for pet food from skipjack and yellowfin tuna: frozen and cooked tuna meat, frozen belly meat and other tuna by-products, packed for pet-food manufacturers. Exported from India.",
   alternates: { canonical: "/pet-food/" },
 };
 
 const cuts = [
-  { name: "Black meat", body: "The dark, blood-rich muscle along the lateral line, removed when loins are cleaned. High in protein and iron." },
-  { name: "Belly meat", body: "Trimmed belly flaps, naturally rich in fat and flavour." },
-  { name: "Shaved meat", body: "Fine shavings recovered from loin trimming, suited to pâtés and wet food." },
-  { name: "Spoon meat", body: "Meat scraped from the backbone and frame after loining." },
+  { name: "Tuna meat", body: "The dark, protein-rich muscle (black meat) removed when tuna loins are cleaned. Supplied frozen, or cooked and vacuum packed." },
+  { name: "Belly meat", body: "Trimmed belly flaps, naturally rich in fat and flavour, frozen in blocks or bags." },
+  { name: "Other by-products", body: "Further tuna by-products from loining and processing, supplied to your specification." },
 ];
 
 const faqs = [
   {
-    q: "What tuna raw materials do you supply for pet food?",
-    a: "From both skipjack and yellowfin tuna: frozen black meat, frozen belly meat, frozen shaved meat and frozen spoon meat, plus cooked black meat, vacuum packed.",
+    q: "What raw materials for pet food do you supply?",
+    a: "From both skipjack and yellowfin tuna: frozen tuna meat, cooked tuna meat (vacuum packed), frozen belly meat and other tuna by-products.",
   },
   {
-    q: "Do you supply raw or cooked pet-food tuna?",
-    a: "Both. Black meat, belly, shaved and spoon meat are supplied frozen raw. Black meat is also available cooked and vacuum packed.",
+    q: "Do you supply frozen or cooked tuna meat?",
+    a: "Both. Tuna meat is available frozen, or cooked and vacuum packed. Belly meat and other by-products are supplied frozen.",
   },
   {
     q: "Can packing be adapted to our plant?",
@@ -40,13 +39,13 @@ export default function PetFoodPage() {
   return (
     <>
       <PageHero
-        crumb="Pet food"
+        crumb="Pet food raw materials"
         title={
           <>
-            Tuna for pet food, <span className="accent">raw or cooked.</span>
+            Raw materials <span className="accent">for pet food.</span>
           </>
         }
-        lede="Skipjack and yellowfin tuna cuts for wet and dry pet-food production: black meat, belly, shaved and spoon meat, frozen raw or cooked and vacuum packed."
+        lede="Skipjack and yellowfin tuna for wet and dry pet-food production: frozen and cooked tuna meat, frozen belly meat and other by-products."
         fish={["skipjack-tuna", "yellowfin-tuna"]}
       />
 
@@ -54,9 +53,13 @@ export default function PetFoodPage() {
         <div className="wrap">
           <div className="sec-head" data-reveal>
             <h2 id="pf-h" className="h-lg">
-              Two species, <span className="ink-accent">two states.</span>
+              Frozen <span className="ink-accent">or cooked.</span>
             </h2>
-            <p className="lede">Every cut is available from both skipjack and yellowfin tuna.</p>
+            <p className="lede">Every raw material is available from both skipjack and yellowfin tuna.</p>
+          </div>
+          <div className="pf-photos" data-reveal>
+            <Photo name="black-meat" alt="Frozen tuna meat packed in a block for pet food" sizes="(max-width: 760px) 100vw, 50vw" caption="Frozen tuna meat" />
+            <Photo name="belly-meat" alt="Frozen tuna belly meat for pet food" sizes="(max-width: 760px) 100vw, 50vw" caption="Frozen belly meat" />
           </div>
           <div className="pf-grid">
             {petfood.map((p, i) => (
@@ -65,7 +68,7 @@ export default function PetFoodPage() {
                 <div className="pf__cols">
                   <div>
                     <p className="pf__state">
-                      <Icon name="snow" /> Frozen raw
+                      <Icon name="snow" /> Frozen
                     </p>
                     <ul>
                       {p.raw.map((r) => (
@@ -96,7 +99,7 @@ export default function PetFoodPage() {
             flip
             title={
               <span id="cuts-h">
-                Know your <span className="accent">cuts.</span>
+                What goes <span className="accent">into the pack.</span>
               </span>
             }
             aside={<Photo name="loins-trimming" alt="Tuna loins being trimmed by hand" sizes="(max-width: 900px) 100vw, 50vw" />}
@@ -114,9 +117,9 @@ export default function PetFoodPage() {
       </section>
 
       <Faq items={faqs} />
-      <ContactBand id="enquire" title="Quote for pet-food tuna." />
-      <JsonLd data={breadcrumbs([{ name: "Pet food", path: "/pet-food/" }])} />
-      <JsonLd data={productList("Pet-food tuna", "/pet-food/", all.map((n) => ({ name: n, description: `${n} for pet-food manufacturing.` })))} />
+      <ContactBand id="enquire" title="Quote for pet-food raw materials." />
+      <JsonLd data={breadcrumbs([{ name: "Raw materials for pet food", path: "/pet-food/" }])} />
+      <JsonLd data={productList("Raw materials for pet food", "/pet-food/", all.map((n) => ({ name: n, description: `${n}, raw material for pet food.` })))} />
     </>
   );
 }

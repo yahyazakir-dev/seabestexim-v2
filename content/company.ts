@@ -43,10 +43,6 @@ export const commitment = [
 ];
 
 export const leaders = [
-  {
-    name: "Bilaal Afzal",
-    role: "Managing Director",
-    photo: "bilaal-afzal",
-    bio: "Bilaal leads buyer relationships and quality decisions personally, and is the first point of contact for new import partners.",
-  },
+  { name: "Bilaal Afzal", role: "Director", photo: "bilaal-afzal" },
+  { name: "Talha Afzal", role: "Director", photo: "talha-afzal" },
 ];

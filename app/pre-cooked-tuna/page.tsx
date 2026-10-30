@@ -62,7 +62,12 @@ export default function PrecookedPage() {
                 Four products, <span className="ink-accent">one clean process.</span>
               </span>
             }
-            aside={<Photo name="loins-bag" alt="Vacuum-packed pre-cooked tuna loins" sizes="(max-width: 900px) 100vw, 50vw" />}
+            aside={
+              <div className="photo-pair">
+                <Photo name="loins-bag" alt="Vacuum-packed pre-cooked tuna loins" sizes="(max-width: 900px) 50vw, 25vw" caption="Pre-cooked loins" />
+                <Photo name="flakes-bag" alt="Vacuum-packed pre-cooked tuna flakes" sizes="(max-width: 900px) 50vw, 25vw" caption="Pre-cooked flakes" />
+              </div>
+            }
           >
             <p className="lede">
               Pre-cooked loins save buyers the cooking, cleaning and waste handling, and arrive frozen in vacuum-sealed packs for

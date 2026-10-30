@@ -1856,3 +1856,219 @@
   margin-bottom: 2rem;
   animation: cruise 6s ease-in-out infinite alternate;
 }
+
+/* ================= Oct 30 revision ================= */
+/* directors: two equal portrait cards, photo + name + designation */
+.leaders__h {
+  margin-bottom: clamp(2rem, 4vw, 3.25rem);
+  text-align: center;
+}
+.leaders__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 360px));
+  justify-content: center;
+  gap: clamp(1.25rem, 4vw, 3.5rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.leaders .leader {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  justify-items: center;
+  text-align: center;
+}
+.leaders .leader__photo {
+  width: 100%;
+  max-width: none;
+  aspect-ratio: 4 / 5;
+  margin-bottom: 1.15rem;
+}
+.leaders .leader__name {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 700;
+  color: var(--navy);
+}
+.leader__role {
+  margin-top: 0.2rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--teal-ink);
+}
+@media (max-width: 560px) {
+  .leaders__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .leaders .leader__name {
+    font-size: 1.05rem;
+  }
+  .leader__role {
+    font-size: 0.72rem;
+  }
+}
+
+/* footer contact: a calm list of mailboxes, the one phone number */
+.footer__mails {
+  display: grid;
+  gap: 0.55rem;
+}
+.footer__mails li {
+  display: grid;
+  gap: 0;
+}
+.footer__mails span {
+  font-size: 0.78rem;
+  color: var(--on-dark-2);
+}
+.footer__mails a {
+  font-size: 0.98rem;
+  font-weight: 560;
+  overflow-wrap: anywhere;
+}
+.footer__phone {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.35rem;
+  font-size: 0.98rem;
+  font-weight: 560;
+  color: var(--white);
+  text-decoration: none;
+}
+.footer__phone:hover {
+  color: var(--teal-soft);
+}
+.footer__phone svg {
+  width: 1.05em;
+  height: 1.05em;
+  color: var(--teal);
+}
+
+/* contact band: WhatsApp button + mailbox list */
+.contact__wa {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  justify-self: start;
+  min-height: 54px;
+  padding: 0.7rem 1.4rem 0.7rem 0.8rem;
+  border-radius: 999px;
+  background: #25d366;
+  color: #fff;
+  font-weight: 650;
+  text-decoration: none;
+  box-shadow: 0 14px 30px -14px rgb(37 211 102 / 0.8);
+  transition: transform 0.35s var(--ease-out), background-color 0.25s;
+}
+.contact__wa:hover {
+  background: #1ebe5b;
+  transform: translateY(-2px);
+}
+.contact__wa svg {
+  width: 30px;
+  height: 30px;
+}
+.contact__mails {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.contact__mails .contact__way {
+  height: 100%;
+}
+.contact__mails .contact__way strong {
+  font-size: clamp(0.92rem, 0.85rem + 0.3vw, 1.05rem);
+}
+@media (max-width: 1180px) and (min-width: 961px), (max-width: 520px) {
+  .contact__mails {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* pre-cooked: loins and flakes side by side */
+.photo-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.split__aside .photo-pair .photo {
+  aspect-ratio: 4 / 5;
+}
+
+/* pet food: the customer's product photos */
+.pf-photos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(12px, 1.6vw, 22px);
+  margin-bottom: clamp(12px, 1.6vw, 22px);
+}
+.pf-photos .photo {
+  aspect-ratio: 5 / 4;
+}
+@media (max-width: 560px) {
+  .pf-photos {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* cubes & steaks: photo on each cut */
+.portion__photo {
+  aspect-ratio: 4 / 3;
+  margin: calc(clamp(20px, 2.4vw, 30px) * -0.4) calc(clamp(20px, 2.4vw, 30px) * -0.4) 1.1rem;
+  border-radius: 16px;
+}
+
+/* parade: product tiles (fillets, cubes, portions) */
+.parade__products {
+  display: flex;
+  gap: 10px;
+  margin: 12px 0 2px;
+  padding: 0;
+  list-style: none;
+}
+.ptile {
+  width: clamp(88px, 8vw, 118px);
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgb(233 243 251 / 0.06);
+  box-shadow: inset 0 0 0 1px rgb(122 232 226 / 0.25), 0 14px 26px -16px rgb(0 0 0 / 0.8);
+}
+.ptile img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+.ptile span {
+  display: block;
+  padding: 6px 8px 7px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--on-dark);
+}
+.parade[data-layout="stacked"] .ptile {
+  width: 84px;
+}
+@media (max-height: 560px) and (min-aspect-ratio: 1/1) {
+  .parade__products {
+    display: none;
+  }
+}
+@media (max-width: 400px) {
+  .spec th,
+  .spec td {
+    padding: 0.7rem 0.35rem;
+  }
+  .spec thead th {
+    font-size: 0.68rem;
+    letter-spacing: 0.03em;
+  }
+}

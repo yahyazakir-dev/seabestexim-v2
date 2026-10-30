@@ -4,7 +4,7 @@ import { useState } from "react";
 import { site } from "@/content/site";
 import { Icon } from "./Icon";
 
-const PRODUCTS = ["Pre-cooked tuna loins / flakes", "Frozen whole fish", "Frozen tuna loins", "Cubes & steaks", "Pet-food tuna", "Other"];
+const PRODUCTS = ["Pre-cooked tuna loins / flakes", "Frozen whole fish", "Frozen tuna loins", "Cubes & steaks", "Raw materials for pet food", "Other"];
 
 type Status = "idle" | "sending" | "sent" | "failed";
 
@@ -49,7 +49,7 @@ export function EnquiryForm() {
     return (
       <div className="enquiry enquiry--sent" role="status">
         <h3 className="enquiry__title">Thank you. Your enquiry is with the directors.</h3>
-        <p className="enquiry__note">We reply from {site.email}, usually within one working day. For anything urgent, call {site.phone}.</p>
+        <p className="enquiry__note">We reply from {site.email}, usually within one working day.</p>
       </div>
     );
 
@@ -100,7 +100,7 @@ export function EnquiryForm() {
       )}
       {status === "failed" && (
         <p className="enquiry__error" role="alert">
-          We couldn&rsquo;t send that just now. <a href={mailto}>Email it to {site.email} instead</a>, or call {site.phone}.
+          We couldn&rsquo;t send that just now. <a href={mailto}>Email it to {site.email} instead</a>.
         </p>
       )}
       <button className="btn" type="submit" disabled={status === "sending"}>
