@@ -18,3 +18,7 @@ Retry on 30 Oct with Veo 3.1 Lite (10 credits each, 1 version per fish, the last
 - Swordfish: same failure. The fish loses its bill and turns tuna-like mid-clip, and pieces fly off before settling. Not committed.
 - Sailfish: cubes fly out in a ring around the fish and the sail disappears mid-clip. Not committed.
 Veo seems to struggle when the end frame differs this much from the start frame for these two long-billed fish. Options: more versions after the credit reset, or build this stage on the site as a crossfade or split animation between `start/` and `end/` instead of a generated clip.
+
+Swordfish and sailfish, final for now (30 Oct): made without AI video, from `start/<slug>-frozen.png` and `end/<slug>-cut.png` with ffmpeg. They hold the start frame for 1.5 s, then a soft-edged wipe runs from head to tail over 5 s (xfade `smoothleft`), then they hold the end frame. 1280×720, 24 fps, 8 s, no audio. The command, per fish:
+`ffmpeg -loop 1 -t 6.5 -i start/<slug>-frozen.png -loop 1 -t 6.5 -i end/<slug>-cut.png -filter_complex "[0]scale=1280:720,fps=24,format=yuv420p,setsar=1[a];[1]scale=1280:720,fps=24,format=yuv420p,setsar=1[b];[a][b]xfade=transition=smoothleft:duration=5:offset=1.5,format=yuv420p" -c:v libx264 -crf 16 -preset slow -movflags +faststart -an clips/<slug>-cut.mp4`
+Yahya may replace these with clips from another AI video tool (e.g. Higgsfield); the file names stay the same.
