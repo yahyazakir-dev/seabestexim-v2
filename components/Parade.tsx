@@ -36,6 +36,7 @@ export function Parade({ iosMode = "play" }: { iosMode?: "stills" | "play" }) {
     let ctx: { revert: () => void } | undefined;
     let cancelled = false;
     let onResize: (() => void) | undefined;
+    const blobs: string[] = [];
 
     (async () => {
       const [{ gsap }, { ScrollTrigger }, { MotionPathPlugin }] = await Promise.all([
@@ -156,15 +157,36 @@ export function Parade({ iosMode = "play" }: { iosMode?: "stills" | "play" }) {
           if (v && v.preload !== "auto") {
             v.preload = "auto";
             v.muted = true;
-            v.load();
             // iOS plays its clips end to end (see process); elsewhere a muted play/pause readies scrubbing
-            if (IOS) return;
-            v.play()
-              .then(() => {
-                v.pause();
-                syncs[i]?.();
+            const ready = () => {
+              if (IOS) return;
+              v.play()
+                .then(() => {
+                  v.pause();
+                  syncs[i]?.();
+                })
+                .catch(() => {});
+            };
+            // Scrubbing seeks inside the clip, which needs HTTP range requests. *.pages.dev (previews) answers
+            // with the whole file instead, leaving the clip stuck on frame one, so scrubbed clips are loaded
+            // whole into memory (about 1.5 MB each) and seek locally whatever the host does.
+            if (IOS) {
+              v.load();
+              return;
+            }
+            const src = v.getAttribute("src")!;
+            fetch(src)
+              .then((r) => (r.ok ? r.blob() : Promise.reject(r.status)))
+              .then((blob) => {
+                const url = URL.createObjectURL(blob);
+                blobs.push(url);
+                v.src = url;
               })
-              .catch(() => {});
+              .catch(() => {})
+              .finally(() => {
+                v.load();
+                ready();
+              });
           }
         };
         warm(0);
@@ -314,6 +336,7 @@ export function Parade({ iosMode = "play" }: { iosMode?: "stills" | "play" }) {
       cancelled = true;
       if (onResize) window.removeEventListener("resize", onResize);
       ctx?.revert();
+      blobs.forEach((u) => URL.revokeObjectURL(u));
     };
   }, [iosMode]);
 
