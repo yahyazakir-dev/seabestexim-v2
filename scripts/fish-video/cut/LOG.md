@@ -22,3 +22,8 @@ Veo seems to struggle when the end frame differs this much from the start frame 
 Swordfish and sailfish, final for now (30 Oct): made without AI video, from `start/<slug>-frozen.png` and `end/<slug>-cut.png` with ffmpeg. They hold the start frame for 1.5 s, then a soft-edged wipe runs from head to tail over 5 s (xfade `smoothleft`), then they hold the end frame. 1280×720, 24 fps, 8 s, no audio. The command, per fish:
 `ffmpeg -loop 1 -t 6.5 -i start/<slug>-frozen.png -loop 1 -t 6.5 -i end/<slug>-cut.png -filter_complex "[0]scale=1280:720,fps=24,format=yuv420p,setsar=1[a];[1]scale=1280:720,fps=24,format=yuv420p,setsar=1[b];[a][b]xfade=transition=smoothleft:duration=5:offset=1.5,format=yuv420p" -c:v libx264 -crf 16 -preset slow -movflags +faststart -an clips/<slug>-cut.mp4`
 Yahya may replace these with clips from another AI video tool (e.g. Higgsfield); the file names stay the same.
+
+Retry on 31 Oct, second Google account, Veo 3.1 Fast (1 version per fish, shorter prompt). Neither clip is committed; the wipe versions stay:
+- Swordfish: kept its bill this time, but a teal glow flashes over the first second (that would jump visibly after the freeze clip), the cubes run up to the head, and it snaps to the end frame.
+- Sailfish: cubes drop out of the bottom of the frame.
+A separate test on Artlist's free Kling 2.5 Turbo Pro (start + end frame, 5 s, 1080p) gave the cleanest swordfish so far, but downloading it needs a paid Artlist plan. If better clips are wanted later, Kling is the one to try.
