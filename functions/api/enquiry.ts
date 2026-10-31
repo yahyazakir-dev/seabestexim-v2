@@ -57,27 +57,32 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
     .map(([k, v]) => `<tr><td style="color:#33506f">${k}</td><td><strong>${esc(v)}</strong></td></tr>`)
     .join("")}</table><p style="font:14px/1.6 Arial,sans-serif;white-space:pre-wrap">${esc(d.message || "(no message)")}</p>`;
 
+  const payload = JSON.stringify({
+    from: { address: env.MAIL_FROM, name: "Sea Best Exim website" },
+    to: [{ email_address: { address: to, name: "Sea Best Exim" } }],
+    reply_to: [{ address: d.email, name: d.name }],
+    subject,
+    textbody,
+    htmlbody,
+  });
+  const send = (url: string) =>
+    fetch(url, { method: "POST", headers: { Authorization: token, "Content-Type": "application/json", Accept: "application/json" }, body: payload });
+
   let res: Response;
   try {
-    res = await fetch(env.ZEPTO_URL || "https://cpaas.zoho.com/v1.1/email", {
-      method: "POST",
-      headers: { Authorization: token, "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify({
-        from: { address: env.MAIL_FROM, name: "Sea Best Exim website" },
-        to: [{ email_address: { address: to, name: "Sea Best Exim" } }],
-        reply_to: [{ address: d.email, name: d.name }],
-        subject,
-        textbody,
-        htmlbody,
-      }),
-    });
+    res = await send(env.ZEPTO_URL || "https://cpaas.zoho.com/v1.1/email");
+    // Zoho tokens only work in the data centre they were made in; an India (zoho.in) token is "invalid" on .com
+    if (res.status === 401 && !env.ZEPTO_URL) res = await send("https://cpaas.zoho.in/v1.1/email");
   } catch (err) {
     console.error("zeptomail unreachable", String(err));
     return json({ ok: false, error: "send_failed" }, 502);
   }
   if (!res.ok) {
-    console.error("zeptomail", res.status, (await res.text()).slice(0, 500));
-    return json({ ok: false, error: "send_failed" }, 502);
+    const text = (await res.text()).slice(0, 500);
+    console.error("zeptomail", res.status, text);
+    // pass Zoho's error codes (no secrets in them) back, so a failed send can be diagnosed from the browser
+    const codes = [...text.matchAll(/"code":"([A-Z]+_\d+)"/g)].map((m) => m[1]).join(" ");
+    return json({ ok: false, error: "send_failed", status: res.status, detail: codes }, 502);
   }
   return json({ ok: true });
 }
