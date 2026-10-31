@@ -20,7 +20,9 @@ const TOTAL = REST[REST.length - 1];
 const restAt = (i: number) => REST[i];
 const nearest = (t: number) => REST.reduce((best, r, i) => (Math.abs(r - t) < Math.abs(REST[best] - t) ? i : best), 0);
 
-const media = (slug: string, part = "") => `/fish-video/${slug}${part}`;
+// bump when clips change: the CDN and browsers cache /fish-video/ for 30 days
+const CLIPS_VERSION = 2;
+const media = (slug: string, part = "") => `/fish-video/${slug}${part}?v=${CLIPS_VERSION}`;
 
 // iosMode picks the iPhone behaviour (both tested on iPhone 16/17; "play" chosen for the live site):
 //   play:   each fish's video plays start to end when the scroll reaches it
