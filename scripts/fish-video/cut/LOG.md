@@ -27,3 +27,8 @@ Retry on 31 Oct, second Google account, Veo 3.1 Fast (1 version per fish, shorte
 - Swordfish: kept its bill this time, but a teal glow flashes over the first second (that would jump visibly after the freeze clip), the cubes run up to the head, and it snaps to the end frame.
 - Sailfish: cubes drop out of the bottom of the frame.
 A separate test on Artlist's free Kling 2.5 Turbo Pro (start + end frame, 5 s, 1080p) gave the cleanest swordfish so far, but downloading it needs a paid Artlist plan. If better clips are wanted later, Kling is the one to try.
+
+Mahi-mahi fillet redo (31 Oct): Yahya pointed out the middle section was a thick chunk of whole body, not a fillet.
+- New `end/mahi-mahi-cut.png`: the old end image edited with Nano Banana 2.1 in Flow (4 versions, kept the 4th), replacing the middle block with two flat, tapered boneless fillets, the upper skin-side up and the lower flesh-side up. Head, cubes, tail and background are unchanged.
+- New `clips/mahi-mahi-cut.mp4` (9.5 s): no credits were left for a new Veo clip (second account at 0, main account signed out), so the earlier Veo Quality clip plays in full and then dissolves over 1.5 s into the new end image, holding it for the last 0.7 s. Only the middle section changes in the dissolve, so it reads as the block turning into the two fillets.
+`ffmpeg -i <old veo clip> -loop 1 -t 2.2 -i end/mahi-mahi-cut.png -filter_complex "[0]scale=1280:720,fps=24,format=yuv420p,setsar=1[a];[1]scale=1280:720,fps=24,format=yuv420p,setsar=1[b];[a][b]xfade=transition=fade:duration=1.5:offset=7.3,format=yuv420p" -an -c:v libx264 -crf 16 -preset slow -movflags +faststart clips/mahi-mahi-cut.mp4`
