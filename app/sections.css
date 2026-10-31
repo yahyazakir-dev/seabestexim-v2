@@ -1260,7 +1260,7 @@
 }
 .phero__fish--0 {
   width: clamp(300px, 42vw, 780px);
-  right: -6vw;
+  right: 3vw;
   top: calc(var(--header-h) + 5%);
 }
 .phero__fish--1 {
@@ -1318,7 +1318,7 @@
   }
   .phero__fish--0 {
     width: 86vw;
-    right: -10vw;
+    right: 4vw;
     top: calc(var(--header-h) + 30px);
   }
   .phero__fish--1 {

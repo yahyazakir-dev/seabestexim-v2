@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { COUNTRIES, MAIN_MARKETS } from "@/content/countries";
 import { site } from "@/content/site";
 import { Icon } from "./Icon";
 
@@ -19,7 +20,7 @@ export function EnquiryForm() {
     e.preventDefault();
     const form = e.currentTarget;
     if (!form.checkValidity()) {
-      setError("Please add your name, a valid email and the product you are interested in.");
+      setError("Please add your name, a valid email, your country and the product you are interested in.");
       form.reportValidity();
       return;
     }
@@ -71,7 +72,21 @@ export function EnquiryForm() {
         </label>
         <label>
           <span>Country</span>
-          <input name="country" autoComplete="country-name" />
+          <select name="country" autoComplete="country-name" required defaultValue="">
+            <option value="" disabled>
+              Choose your country
+            </option>
+            <optgroup label="Main markets">
+              {MAIN_MARKETS.map((c) => (
+                <option key={c}>{c}</option>
+              ))}
+            </optgroup>
+            <optgroup label="All countries">
+              {COUNTRIES.map((c) => (
+                <option key={c}>{c}</option>
+              ))}
+            </optgroup>
+          </select>
         </label>
         <label className="enquiry__full">
           <span>Product</span>
