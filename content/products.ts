@@ -139,7 +139,8 @@ export const valueAdded: { species: string; cuts: string[] }[] = [
 ];
 
 // Order of the species in the homepage swim sequence.
-export const parade = ["yellowfin-tuna", "skipjack-tuna", "swordfish", "mahi-mahi", "sailfish", "red-snapper", "ribbonfish"];
+// ribbonfish is left out of the home animation for now (customer's call); its clip is kept, add "ribbonfish" back to show it
+export const parade = ["yellowfin-tuna", "skipjack-tuna", "swordfish", "mahi-mahi", "sailfish", "red-snapper"];
 
 export const allSpecies = [...frozenMain, ...frozenAlso];
 export const speciesBySlug = (slug: string) => allSpecies.find((s) => s.slug === slug)!;
