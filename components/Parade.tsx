@@ -11,10 +11,14 @@ const FISH = parade.map((slug) => ({ ...speciesBySlug(slug), clip: fishClips[slu
 
 // Scroll timeline, in timeline seconds: the first fish is processed in PROCESS,
 // then each later fish takes SEG (swim out/in, then its own clip plays).
+// A fish whose clip goes on to cut it into products (freeze + cut, twice as long) gets twice the PROCESS.
 const PROCESS = 0.8;
 const SEG = 1.5;
-const TOTAL = PROCESS + (FISH.length - 1) * SEG;
-const restAt = (i: number) => PROCESS + i * SEG;
+const LEN = FISH.map((f) => (f.clip.cuts ? 2 : 1));
+const REST = LEN.reduce<number[]>((r, len, i) => [...r, i ? r[i - 1] + SEG + PROCESS * (len - 1) : PROCESS * len], []);
+const TOTAL = REST[REST.length - 1];
+const restAt = (i: number) => REST[i];
+const nearest = (t: number) => REST.reduce((best, r, i) => (Math.abs(r - t) < Math.abs(REST[best] - t) ? i : best), 0);
 
 const media = (slug: string, part = "") => `/fish-video/${slug}${part}`;
 
@@ -217,7 +221,7 @@ export function Parade({ iosMode = "play" }: { iosMode?: "stills" | "play" }) {
             snap: IOS ? undefined : { snapTo: "labels", inertia: false, duration: { min: 0.3, max: 0.9 }, delay: 0.08, ease: "power2.inOut" },
             onUpdate: (self) => {
               const t = self.progress * TOTAL;
-              const i = Math.max(0, Math.min(N - 1, Math.round((t - PROCESS) / SEG)));
+              const i = nearest(t);
               setActive(i);
               warm(i);
               warm(i + 1);
@@ -229,10 +233,12 @@ export function Parade({ iosMode = "play" }: { iosMode?: "stills" | "play" }) {
         // The clip plays with the scroll: frost forms (frozen), or the tuna splits into
         // frozen half + pre-cooked loins (both). Scrolling back plays it in reverse.
         const process = (k: number, at: number) => {
+          const D = PROCESS * LEN[k];
           tl.to(states[k], { autoAlpha: 1, x: 0, duration: PROCESS * 0.4, ease: "power2.out" }, at + PROCESS * 0.2);
-          if (splits[k].length) tl.to(splits[k], { autoAlpha: 1, y: 0, duration: PROCESS * 0.25, stagger: 0.05, ease: "power2.out" }, at + PROCESS * 0.75);
+          // labels arrive as the clip's last stage settles: tuna halves, or the cut products
+          if (splits[k].length) tl.to(splits[k], { autoAlpha: 1, y: 0, duration: PROCESS * 0.25, stagger: 0.05, ease: "power2.out" }, at + D - PROCESS * 0.25);
           if (IOS && iosMode === "stills") {
-            tl.fromTo(stills[k], { opacity: 0 }, { opacity: 1, duration: PROCESS, ease: "power1.inOut", immediateRender: false }, at);
+            tl.fromTo(stills[k], { opacity: 0 }, { opacity: 1, duration: D, ease: "power1.inOut", immediateRender: false }, at);
             return;
           }
           if (IOS) {
@@ -242,7 +248,7 @@ export function Parade({ iosMode = "play" }: { iosMode?: "stills" | "play" }) {
             const play = () => {
               v.muted = true;
               v.currentTime = 0;
-              v.playbackRate = 1.5; // ~5 s per fish, closer to the pace of the scrolled version
+              v.playbackRate = LEN[k] > 1 ? 2.25 : 1.5; // ~5 s per fish (~7 s with the cut), closer to the pace of the scrolled version
               v.play()?.catch(() => gsap.to(stills[k], { opacity: 1, duration: 0.6 }));
             };
             const rewind = () => {
@@ -250,7 +256,7 @@ export function Parade({ iosMode = "play" }: { iosMode?: "stills" | "play" }) {
               v.currentTime = 0;
               gsap.set(stills[k], { opacity: 0 });
             };
-            tl.to({}, { duration: PROCESS, onStart: play, onReverseComplete: rewind }, at);
+            tl.to({}, { duration: D, onStart: play, onReverseComplete: rewind }, at);
             return;
           }
           const v = videos[k];
@@ -264,7 +270,7 @@ export function Parade({ iosMode = "play" }: { iosMode?: "stills" | "play" }) {
           // a clip that loads after the scroll has passed it catches up to where it should be
           v.addEventListener("loadeddata", sync);
           offs.push(() => v.removeEventListener("loadeddata", sync));
-          tl.fromTo(clock, { t: 0 }, { t: 1, duration: PROCESS, ease: "none", immediateRender: false, onUpdate: sync }, at);
+          tl.fromTo(clock, { t: 0 }, { t: 1, duration: D, ease: "none", immediateRender: false, onUpdate: sync }, at);
         };
 
         tl.addLabel("landing", 0);
@@ -387,7 +393,9 @@ export function Parade({ iosMode = "play" }: { iosMode?: "stills" | "play" }) {
                     aria-label={
                       s.clip.process === "both"
                         ? `${s.name} splitting into a frozen half and pre-cooked loins`
-                        : `${s.name} freezing as frost forms over it`
+                        : s.clip.cuts
+                          ? `${s.name} freezing, then cut into ${s.clip.cuts.filter((c) => c.label !== "Frozen").map((c) => c.label.toLowerCase()).join(" and ")}`
+                          : `${s.name} freezing as frost forms over it`
                     }
                   />
                   {/* stills: the iPhone version (crossfaded, see IOS) and the reduced-motion end state */}
@@ -399,6 +407,16 @@ export function Parade({ iosMode = "play" }: { iosMode?: "stills" | "play" }) {
                       <span className="clip__tag clip__tag--frozen">Frozen</span>
                     </>
                   )}
+                  {s.clip.cuts?.map((c, j) => (
+                    <span
+                      key={c.label}
+                      className={`clip__tag clip__tag--${c.label === "Frozen" ? "frozen" : "cut"}`}
+                      data-row={j % 2 || undefined}
+                      style={{ left: `${c.x}%` }}
+                    >
+                      {c.label}
+                    </span>
+                  ))}
                 </div>
               </div>
             </div>

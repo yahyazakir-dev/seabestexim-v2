@@ -211,6 +211,15 @@
   border: 1px solid rgb(160 230 255 / 0.45);
   color: #d6f3ff;
 }
+/* frozen-only fish cut into products: cubes, steaks, fillet (position set inline per section) */
+.clip__tag--cut {
+  border: 1px solid rgb(255 255 255 / 0.4);
+  color: #fff;
+}
+/* neighbouring section labels alternate between two rows so they never collide on small frames */
+.clip__tag[data-row] {
+  margin-top: -2.4em; /* not translate: GSAP folds it into its own transform */
+}
 
 /* process tag above each species heading: Frozen / Frozen + Pre-cooked */
 .parade__state {

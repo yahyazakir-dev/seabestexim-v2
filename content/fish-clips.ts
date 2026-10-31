@@ -17,6 +17,9 @@ export interface FishClip {
   pack: string;
   /** product photos (public/img names) that animate in beside the species */
   products?: { label: string; img: string }[];
+  /** the clip goes on to cut the frozen fish into its products (scripts/fish-video/cut/);
+   *  one label per section, with its centre as a % of the frame width */
+  cuts?: { label: string; x: number }[];
   /** source photo the clip was generated from (kept for our records, not shown) */
   photo: { by: string; license: string; href: string };
 }
@@ -54,12 +57,14 @@ export const fishClips: Record<string, FishClip> = {
     pack: "Frozen whole round or dressed (HGT), with loins cut to order and packed to agreed sizes and grades.",
     forms: ["Whole round", "HGT", "Raw loins", "Cubes", "Steaks"],
     process: "frozen",
+    cuts: [{ label: "Cubes", x: 33 }, { label: "Steaks", x: 47 }, { label: "Frozen", x: 64 }],
     photo: ifremer("Hugues Evano", "https://commons.wikimedia.org/wiki/File:Espadon_(Xiphias_gladius)_(Ifremer_00764-87622).jpg"),
   },
   "mahi-mahi": {
     pack: "Frozen whole, gilled and gutted, or as fillets, graded by size and packed to your specification.",
     forms: ["Whole round", "G&G", "Skin-on fillet", "Skinless fillet", "Cubes"],
     process: "frozen",
+    cuts: [{ label: "Cubes", x: 34 }, { label: "Fillet", x: 59 }, { label: "Frozen", x: 81 }],
     photo: ifremer("Hugues Evano", "https://commons.wikimedia.org/wiki/File:Coryph%C3%A8ne_commune_(Coryphaena_hippurus)_(Ifremer_00763-87546).jpg"),
   },
   sailfish: {
@@ -70,6 +75,7 @@ export const fishClips: Record<string, FishClip> = {
       { label: "Portions 120/160 g", img: "sailfish-portions" },
     ],
     process: "frozen",
+    cuts: [{ label: "Cubes", x: 37 }, { label: "Frozen", x: 62 }],
     photo: ifremer("Fanchon Varenne", "https://commons.wikimedia.org/wiki/File:Voilier_de_l%27Indo-Pacifique_(Istiophorus_platypterus)_(Ifremer_00761-87277).jpg"),
   },
   "red-snapper": {
@@ -77,6 +83,7 @@ export const fishClips: Record<string, FishClip> = {
     forms: ["Whole round", "Skin-on fillet", "Skinless fillet", "Cubes"],
     products: [{ label: "Skin-on fillets", img: "red-snapper-fillet-skin-on" }],
     process: "frozen",
+    cuts: [{ label: "Cubes", x: 45 }, { label: "Frozen", x: 70 }],
     photo: { by: "Filo gèn'", license: "CC BY-SA 4.0", href: "https://commons.wikimedia.org/wiki/File:Lutjanus_on_white_background.jpg" },
   },
   ribbonfish: {
