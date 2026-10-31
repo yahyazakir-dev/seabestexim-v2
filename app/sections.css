@@ -2035,42 +2035,6 @@
   border-radius: 16px;
 }
 
-/* parade: product tiles (fillets, cubes, portions) */
-.parade__products {
-  display: flex;
-  gap: 10px;
-  margin: 12px 0 2px;
-  padding: 0;
-  list-style: none;
-}
-.ptile {
-  width: clamp(88px, 8vw, 118px);
-  border-radius: 14px;
-  overflow: hidden;
-  background: rgb(233 243 251 / 0.06);
-  box-shadow: inset 0 0 0 1px rgb(122 232 226 / 0.25), 0 14px 26px -16px rgb(0 0 0 / 0.8);
-}
-.ptile img {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-}
-.ptile span {
-  display: block;
-  padding: 6px 8px 7px;
-  font-size: 0.72rem;
-  font-weight: 600;
-  line-height: 1.25;
-  color: var(--on-dark);
-}
-.parade[data-layout="stacked"] .ptile {
-  width: 84px;
-}
-@media (max-height: 560px) and (min-aspect-ratio: 1/1) {
-  .parade__products {
-    display: none;
-  }
-}
 @media (max-width: 400px) {
   .spec th,
   .spec td {

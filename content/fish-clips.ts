@@ -15,8 +15,6 @@ export interface FishClip {
   note?: string;
   /** how the species is packed, shown under the forms */
   pack: string;
-  /** product photos (public/img names) that animate in beside the species */
-  products?: { label: string; img: string }[];
   /** the clip goes on to cut the frozen fish into its products (scripts/fish-video/cut/);
    *  one label per section, with its centre as a % of the frame width */
   cuts?: { label: string; x: number }[];
@@ -31,10 +29,6 @@ export const fishClips: Record<string, FishClip> = {
     pack: "Whole fish frozen and packed to agreed sizes and grades; pre-cooked loins vacuum packed and kept frozen to shipment.",
     process: "both",
     forms: ["Whole round", "GG", "HLG", "Raw loins", "Pre-cooked loins", "Cubes", "Steaks"],
-    products: [
-      { label: "Pre-cooked loins", img: "loins-bag" },
-      { label: "Raw loins", img: "frozen-loins" },
-    ],
     note: "Supplied frozen, or cooked and cleaned into boneless pre-cooked loins.",
     photo: ifremer("Hugues Evano", "https://commons.wikimedia.org/wiki/File:Thon_albacore_(Thunnus_albacares)_(Ifremer_00764-87616).jpg"),
   },
@@ -42,10 +36,6 @@ export const fishClips: Record<string, FishClip> = {
     pack: "Whole round frozen for canneries and processors; pre-cooked loins vacuum packed, frozen and packed to your specification.",
     process: "both",
     forms: ["Whole round", "HLG", "Raw loins", "Pre-cooked loins", "Pre-cooked flakes"],
-    products: [
-      { label: "Pre-cooked loins", img: "loins-bag" },
-      { label: "Pre-cooked flakes", img: "flakes-bag" },
-    ],
     note: "The pre-cooking staple: frozen whole, or cleaned into boneless pre-cooked loins.",
     photo: {
       by: "Jeffrey Williams / Smithsonian NMNH",
@@ -70,10 +60,6 @@ export const fishClips: Record<string, FishClip> = {
   sailfish: {
     pack: "Frozen whole or headed and gutted, or cut into skinless, boneless cubes and portions.",
     forms: ["Whole round", "H&G", "Cubes", "Portions"],
-    products: [
-      { label: "Cubes 35/45 g", img: "sailfish-cubes" },
-      { label: "Portions 120/160 g", img: "sailfish-portions" },
-    ],
     process: "frozen",
     cuts: [{ label: "Cubes", x: 37 }, { label: "Frozen", x: 62 }],
     photo: ifremer("Fanchon Varenne", "https://commons.wikimedia.org/wiki/File:Voilier_de_l%27Indo-Pacifique_(Istiophorus_platypterus)_(Ifremer_00761-87277).jpg"),
@@ -81,7 +67,6 @@ export const fishClips: Record<string, FishClip> = {
   "red-snapper": {
     pack: "Frozen whole round, or as skin-on and skinless fillets and cubes, packed to your specification.",
     forms: ["Whole round", "Skin-on fillet", "Skinless fillet", "Cubes"],
-    products: [{ label: "Skin-on fillets", img: "red-snapper-fillet-skin-on" }],
     process: "frozen",
     cuts: [{ label: "Cubes", x: 45 }, { label: "Frozen", x: 70 }],
     photo: { by: "Filo gèn'", license: "CC BY-SA 4.0", href: "https://commons.wikimedia.org/wiki/File:Lutjanus_on_white_background.jpg" },
