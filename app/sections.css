@@ -742,6 +742,11 @@
 .line__photo img {
   transition: transform 1.2s var(--ease-out);
 }
+/* the frozen and pre-cooked photos carry the logo near the top */
+.line--a .line__photo img,
+.line--b .line__photo img {
+  object-position: 50% 0;
+}
 .line::after {
   content: "";
   position: absolute;
