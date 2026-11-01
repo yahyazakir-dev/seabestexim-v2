@@ -13,8 +13,8 @@ export function ProductLines() {
       title: "Frozen seafood",
       body: "Tuna, swordfish, mahi-mahi, billfish, mackerel, sardine, ribbonfish and reef fish. Whole round, dressed, loins and fillets.",
       meta: "14 species",
-      photo: "frozen-tuna-steel",
-      alt: "Whole frozen tuna on a stainless steel table in a processing plant",
+      photo: "frozen-tuna-counter",
+      alt: "A stainless steel table filled with whole frozen tuna in a processing plant",
       cls: "line--a",
     },
     {
