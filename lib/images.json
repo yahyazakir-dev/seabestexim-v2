@@ -88,13 +88,13 @@
       1200
     ]
   },
-  "frozen-tuna-sack": {
-    "w": 1380,
-    "h": 1280,
+  "frozen-tuna-steel": {
+    "w": 1200,
+    "h": 896,
     "widths": [
       640,
       1080,
-      1380
+      1200
     ]
   },
   "harbour": {
