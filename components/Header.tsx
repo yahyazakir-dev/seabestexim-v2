@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { nav } from "@/content/site";
 import { Icon } from "./Icon";
-import { WhatsAppLink } from "./WhatsApp";
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -34,7 +33,6 @@ export function Header() {
           ))}
         </nav>
         <div className="header__contact">
-          <WhatsAppLink />
           <button className="menu-btn" type="button" aria-expanded={open} aria-controls="site-nav" aria-label={open ? "Close menu" : "Open menu"} onClick={() => setOpen((o) => !o)}>
             <Icon name={open ? "close" : "menu"} />
           </button>

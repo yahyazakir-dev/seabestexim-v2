@@ -324,23 +324,6 @@ html {
   font-size: 0.98rem;
   font-variant-numeric: tabular-nums;
 }
-.wa {
-  display: grid;
-  place-items: center;
-  width: 56px;
-  height: 56px;
-  border-radius: 14px;
-  background: var(--ice);
-  color: var(--navy);
-  transition: background-color 0.25s;
-}
-.wa:hover {
-  background: var(--frost);
-}
-.wa svg {
-  width: 24px;
-  height: 24px;
-}
 .menu-btn {
   display: none;
   width: 48px;
@@ -360,9 +343,6 @@ html {
 @media (max-width: 1180px) {
   .brand__word {
     width: 132px;
-  }
-  .wa {
-    display: none;
   }
 }
 @media (max-width: 1020px) {
@@ -635,57 +615,36 @@ html {
   }
 }
 
-/* ---------- header, Oct 30 revision: larger company name, WhatsApp only ---------- */
+/* ---------- header, Nov 1 revision: larger logo, no WhatsApp button ---------- */
+.brand__icon {
+  width: 64px;
+}
 .brand__word {
-  width: 236px;
-}
-.header .wa,
-.wa {
-  display: grid;
-  place-items: center;
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: #25d366;
-  color: #fff;
-  box-shadow: 0 8px 20px -10px rgb(37 211 102 / 0.9);
-  transition: transform 0.35s var(--ease-out), background-color 0.25s;
-}
-.header .wa:hover,
-.wa:hover {
-  background: #1ebe5b;
-  transform: scale(1.06);
-}
-.wa svg,
-.wa__glyph {
-  width: 28px;
-  height: 28px;
+  width: 280px;
 }
 @media (max-width: 1180px) {
   .brand__word {
-    width: 200px;
-  }
-  .header .wa {
-    display: grid;
+    width: 236px;
   }
 }
 @media (max-width: 1020px) {
-  .header .wa {
-    width: 46px;
-    height: 46px;
-  }
-  .wa svg {
-    width: 25px;
-    height: 25px;
+  .brand__icon {
+    width: 54px;
   }
 }
 @media (max-width: 560px) {
+  .brand__icon {
+    width: 44px;
+  }
   .brand__word {
-    width: 152px;
+    width: 184px;
   }
 }
 @media (max-width: 360px) {
+  .brand__icon {
+    width: 38px;
+  }
   .brand__word {
-    width: 126px;
+    width: 150px;
   }
 }
