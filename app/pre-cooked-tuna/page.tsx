@@ -31,7 +31,7 @@ const faqs = [
   },
   {
     q: "Can bag weights and packing be customised?",
-    a: "Yes. Pack sizes, carton configuration and labelling follow the buyer's specification, subject to processing capability. Tell us your requirement and a director will confirm.",
+    a: "Yes. Pack sizes, carton configuration and labelling follow the buyer's specification, subject to processing capability. Tell us your requirement and we will confirm.",
   },
   {
     q: "What is the difference between loins and flakes?",

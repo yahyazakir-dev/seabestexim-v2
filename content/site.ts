@@ -7,13 +7,6 @@ export const site = {
   phoneHref: "tel:+919037990827",
   whatsappHref: "https://wa.me/919037990827",
   email: "info@seabestexim.com",
-  // Shown in the contact section and footer. PLACEHOLDER: addresses follow the info@ pattern; confirm the mailboxes exist.
-  emails: [
-    { label: "Sales", email: "sales@seabestexim.com" },
-    { label: "Accounts", email: "accounts@seabestexim.com" },
-    { label: "Bilaal Afzal, Director", email: "bilaal@seabestexim.com" },
-    { label: "Talha Afzal, Director", email: "talha@seabestexim.com" },
-  ],
   // PLACEHOLDER: street address not yet confirmed by the customer.
   address: {
     locality: "Kochi",

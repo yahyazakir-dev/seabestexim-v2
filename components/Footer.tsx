@@ -2,6 +2,7 @@ import Link from "next/link";
 import { site } from "@/content/site";
 import { promise } from "@/content/company";
 import { Icon } from "./Icon";
+import { WhatsAppLink } from "./WhatsApp";
 import { Contours } from "./Media";
 
 export function Footer() {
@@ -30,25 +31,19 @@ export function Footer() {
             <h2 className="footer__h">Company</h2>
             <ul>
               <li><Link href="/about/">About Sea Best Exim</Link></li>
-              <li><Link href="/about/#leadership">Leadership</Link></li>
               <li><Link href="/about/#why">Why buyers choose us</Link></li>
               <li><Link href="/about/#contact">Contact &amp; location</Link></li>
             </ul>
           </div>
           <div className="footer__contact">
             <h2 className="footer__h">Contact</h2>
-            <ul className="footer__mails">
-              {[{ label: "General", email: site.email }, ...site.emails].map((m) => (
-                <li key={m.email}>
-                  <span>{m.label}</span>
-                  <a href={`mailto:${m.email}`}>{m.email}</a>
-                </li>
-              ))}
-            </ul>
-            <a className="footer__phone num" href={site.phoneHref}>
-              <Icon name="phone" />
-              {site.phone}
+            <a className="footer__phone" href={`mailto:${site.email}`}>
+              <Icon name="mail" />
+              {site.email}
             </a>
+            <WhatsAppLink className="contact__wa footer__wa">
+              <span>Chat on WhatsApp</span>
+            </WhatsAppLink>
             <p className="footer__meta">
               <Icon name="pin" />
               {site.address.line}

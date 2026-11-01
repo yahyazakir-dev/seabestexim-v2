@@ -2,12 +2,12 @@
 
 export const reasons = [
   {
-    title: "Director-led quality",
-    body: "Our directors take a personal interest in quality assurance and product requirements, so quality stays central to every sourcing, processing and supply decision.",
+    title: "Quality you can see",
+    body: "Every lot is checked for freshness, colour, texture, size and grade against the agreed specification before it is frozen, so what you receive matches what you ordered.",
   },
   {
-    title: "Direct line to the directors",
-    body: "Buyers speak with our directors directly to agree specifications, raise concerns and make decisions. Fewer layers, faster answers.",
+    title: "Hygienic, careful processing",
+    body: "Fish is cleaned, cooked, trimmed and packed by processing partners working to food-safety and hygiene standards, with temperature control at every step.",
   },
   {
     title: "Transparent, ethical dealings",
@@ -38,11 +38,6 @@ export const reasons = [
 export const promise = "Quality-led decisions, transparent dealings, direct communication, and relationships built on trust.";
 
 export const commitment = [
-  "At Sea Best Exim Private Limited, we see every transaction as an opportunity to build a lasting partnership. With quality as our guiding principle, direct director involvement, transparent communication and a buyer-focused approach, we strive to create value for our customers in international seafood markets.",
+  "At Sea Best Exim Private Limited, we see every transaction as an opportunity to build a lasting partnership. With quality as our guiding principle, careful quality control, transparent communication and a buyer-focused approach, we strive to create value for our customers in international seafood markets.",
   "We remain committed to continuously improving our sourcing, quality-control coordination, processing partnerships, documentation and logistics practices to meet evolving buyer expectations.",
-];
-
-export const leaders = [
-  { name: "Bilaal Afzal", role: "Director", photo: "bilaal-afzal" },
-  { name: "Talha Afzal", role: "Director", photo: "talha-afzal" },
 ];

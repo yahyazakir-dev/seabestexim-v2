@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { PageHero, Split } from "@/components/Page";
-import { ContactBand, Leadership, Reasons } from "@/components/Sections";
+import { ContactBand, Reasons } from "@/components/Sections";
 import { Icon } from "@/components/Icon";
 import { Photo } from "@/components/Media";
 import { commitment, promise } from "@/content/company";
@@ -8,9 +8,9 @@ import { site } from "@/content/site";
 import { JsonLd, breadcrumbs } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "About Sea Best Exim: Director-Led Seafood Exporter in Kochi, India",
+  title: "About Sea Best Exim: Quality-Led Seafood Exporter in Kochi, India",
   description:
-    "Sea Best Exim Private Limited is a director-led exporter of frozen seafood and pre-cooked tuna based in Kochi, Kerala. Our commitments, leadership, address, map and contact details.",
+    "Sea Best Exim Private Limited is a quality-led exporter of frozen seafood and pre-cooked tuna based in Kochi, Kerala. Our commitments, quality, address, map and contact details.",
   alternates: { canonical: "/about/" },
 };
 
@@ -45,7 +45,7 @@ export default function AboutPage() {
             Quality is our <span className="accent">guiding principle.</span>
           </>
         }
-        lede="Sea Best Exim Private Limited is a director-led seafood export company. We coordinate sourcing, processing, quality control, packing and shipment so buyers deal with one accountable partner."
+        lede="Sea Best Exim Private Limited is a quality-led seafood export company. We coordinate sourcing, processing, quality control, packing and shipment so buyers deal with one accountable partner."
         fish={["red-snapper", "sailfish"]}
       />
 
@@ -72,7 +72,6 @@ export default function AboutPage() {
       </section>
 
       <Reasons id="why" />
-      <Leadership id="leadership" />
 
       <section className="section locate" id="location" aria-labelledby="loc-h">
         <div className="wrap locate__inner">

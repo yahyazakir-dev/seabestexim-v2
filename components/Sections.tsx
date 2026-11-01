@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { leaders, reasons } from "@/content/company";
+import { reasons } from "@/content/company";
 import { site } from "@/content/site";
 import { EnquiryForm } from "./EnquiryForm";
 import { WhatsAppLink } from "./WhatsApp";
@@ -78,7 +78,7 @@ export function ProductLines() {
 }
 
 const steps: { icon: IconName; title: string; body: string }[] = [
-  { icon: "mail", title: "Specification", body: "Species, size, grade, cut and packing agreed directly with a director." },
+  { icon: "mail", title: "Specification", body: "Species, size, grade, cut and packing agreed in writing before production." },
   { icon: "pin", title: "Sourcing", body: "Fish sourced through our partner network on India's coast." },
   { icon: "check", title: "Quality checks", body: "Product checked against the agreed specification before freezing." },
   { icon: "snow", title: "Freezing & storage", body: "Frozen and held in cold storage at −18 °C or colder." },
@@ -95,7 +95,7 @@ export function ColdChain() {
           <h2 id="chain-h" className="h-lg">
             From the catch to <span className="accent">your container.</span>
           </h2>
-          <p className="lede">One accountable thread, coordinated by our team and checked by our directors, from the first spec sheet to the bill of lading.</p>
+          <p className="lede">One accountable thread, coordinated by our team and quality-checked at every stage, from the first spec sheet to the bill of lading.</p>
         </div>
         <ol className="chain__steps">
           <svg className="chain__current" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true">
@@ -132,7 +132,7 @@ export function Reasons({ id }: { id?: string }) {
             Why buyers choose <span className="ink-accent">Sea Best Exim.</span>
           </h2>
           <p className="lede">
-            Quality is the foundation of every relationship we build. Our directors treat it as the company's main pillar, from
+            Quality is the foundation of every relationship we build. We treat it as the company's main pillar, from
             sourcing and processing to quality control, packing and shipment.
           </p>
           {!id && (
@@ -154,26 +154,6 @@ export function Reasons({ id }: { id?: string }) {
   );
 }
 
-export function Leadership({ id }: { id?: string }) {
-  return (
-    <section className="section leaders" id={id} aria-labelledby="lead-h">
-      <div className="wrap">
-        <h2 id="lead-h" className="h-lg leaders__h" data-reveal>
-          Meet our <span className="ink-accent">directors.</span>
-        </h2>
-        <ul className="leaders__grid">
-          {leaders.map((l, i) => (
-            <li key={l.name} className="leader" data-reveal={i}>
-              <Photo name={l.photo} alt={`${l.name}, ${l.role}, Sea Best Exim`} sizes="(max-width: 640px) 90vw, 40vw" className="leader__photo" />
-              <p className="leader__name">{l.name}</p>
-              <p className="leader__role">{l.role}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-  );
-}
 
 export function ContactBand({ id = "contact", title = "Tell us what you need to import." }: { id?: string; title?: string }) {
   return (
@@ -184,23 +164,17 @@ export function ContactBand({ id = "contact", title = "Tell us what you need to 
           <h2 id={`${id}-h`} className="h-lg">
             {title}
           </h2>
-          <p className="lede">Share the species, specification, volume and destination port. Our directors read every enquiry.</p>
+          <p className="lede">Share the species, specification, volume and destination port. We reply to every enquiry personally.</p>
           <WhatsAppLink className="contact__wa">
             <span>Chat with us on WhatsApp</span>
           </WhatsAppLink>
-          <ul className="contact__mails">
-            {site.emails.map((m) => (
-              <li key={m.email}>
-                <a href={`mailto:${m.email}`} className="contact__way">
-                  <Icon name="mail" />
-                  <span>
-                    <small>{m.label}</small>
-                    <strong>{m.email}</strong>
-                  </span>
-                </a>
-              </li>
-            ))}
-          </ul>
+          <a href={`mailto:${site.email}`} className="contact__way">
+            <Icon name="mail" />
+            <span>
+              <small>Email</small>
+              <strong>{site.email}</strong>
+            </span>
+          </a>
         </div>
         <EnquiryForm />
       </div>

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Parade } from "@/components/Parade";
-import { ColdChain, ContactBand, Leadership, ProductLines, Reasons } from "@/components/Sections";
+import { ColdChain, ContactBand, ProductLines, Reasons } from "@/components/Sections";
 
 export const metadata: Metadata = {
   title: { absolute: "Sea Best Exim | Frozen Seafood & Pre-Cooked Tuna Exporter, India" },
@@ -14,7 +14,6 @@ export default function Home() {
       <ProductLines />
       <ColdChain />
       <Reasons />
-      <Leadership />
       <ContactBand />
     </>
   );

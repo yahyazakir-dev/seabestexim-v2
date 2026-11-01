@@ -423,7 +423,7 @@ export function Parade({ iosMode = "play" }: { iosMode?: "stills" | "play" }) {
           <p className="parade__lede">
             <span className="parade__lede-long">
               Pre-cooked tuna loins and flakes, frozen whole fish, raw materials for pet food, fillets, cubes and portions, sourced and shipped to your
-              specification with the directors on the line.
+              specification and quality-checked at every step.
             </span>
             <span className="parade__lede-short">Pre-cooked tuna loins and frozen whole fish, packed to your specification.</span>
           </p>

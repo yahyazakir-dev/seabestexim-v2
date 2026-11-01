@@ -9,7 +9,7 @@ const PRODUCTS = ["Pre-cooked tuna loins / flakes", "Frozen whole fish", "Frozen
 
 type Status = "idle" | "sending" | "sent" | "failed";
 
-// Posts to the Cloudflare Pages Function at /api/enquiry (functions/api/enquiry.ts), which emails the directors.
+// Posts to the Cloudflare Pages Function at /api/enquiry (functions/api/enquiry.ts), which emails the team.
 // If sending fails, the buyer can still open a pre-filled email instead, so no enquiry is lost.
 export function EnquiryForm() {
   const [error, setError] = useState("");
@@ -49,7 +49,7 @@ export function EnquiryForm() {
   if (status === "sent")
     return (
       <div className="enquiry enquiry--sent" role="status">
-        <h3 className="enquiry__title">Thank you. Your enquiry is with the directors.</h3>
+        <h3 className="enquiry__title">Thank you. Your enquiry is with our team.</h3>
         <p className="enquiry__note">We reply from {site.email}, usually within one working day.</p>
       </div>
     );
@@ -121,7 +121,7 @@ export function EnquiryForm() {
       <button className="btn" type="submit" disabled={status === "sending"}>
         {status === "sending" ? "Sending…" : "Send enquiry"} <Icon name="arrow" />
       </button>
-      <p className="enquiry__note">Goes straight to the directors at {site.email}.</p>
+      <p className="enquiry__note">Goes straight to our team at {site.email}.</p>
     </form>
   );
 }

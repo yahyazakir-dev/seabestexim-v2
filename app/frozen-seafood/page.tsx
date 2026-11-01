@@ -25,7 +25,7 @@ const faqs = [
   },
   {
     q: "Can you pack to our own size, grade and carton specification?",
-    a: "Yes. We accommodate buyer-specific sizes, grades, cuts, processing methods and packaging, subject to product availability and processing capability. Share your specification and a director will confirm what can be supplied.",
+    a: "Yes. We accommodate buyer-specific sizes, grades, cuts, processing methods and packaging, subject to product availability and processing capability. Share your specification and we will confirm what can be supplied.",
   },
   {
     q: "How is product quality protected in transit?",

@@ -971,68 +971,6 @@
   }
 }
 
-/* ================= leadership ================= */
-.leaders {
-  background: var(--ice);
-}
-.leader {
-  display: grid;
-  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-  gap: clamp(2rem, 6vw, 6rem);
-  align-items: center;
-}
-.leader__photo {
-  aspect-ratio: 4 / 5;
-  max-width: 520px;
-  box-shadow: 0 40px 80px -50px rgb(1 15 43 / 0.8);
-}
-.leader__text {
-  display: grid;
-  gap: 1rem;
-  justify-items: start;
-}
-.leader__quote {
-  margin: 0.5rem 0;
-  font-family: var(--font-display);
-  font-size: var(--step-2);
-  font-weight: 400;
-  line-height: 1.3;
-  letter-spacing: -0.02em;
-  color: var(--navy);
-  max-width: 30ch;
-}
-.leader__name {
-  font-weight: 650;
-  font-size: var(--step-1);
-}
-.leader__name + .muted {
-  margin-top: -0.9rem;
-}
-.leader__bio {
-  max-width: 52ch;
-  color: var(--ink-2);
-}
-@media (max-width: 860px) {
-  /* stacked: photo centred with the text centred beneath it */
-  .leader {
-    grid-template-columns: 1fr;
-    justify-items: center;
-    text-align: center;
-  }
-  .leader__photo {
-    width: min(100%, 380px);
-    max-width: 380px;
-    margin-inline: auto;
-  }
-  .leader__text {
-    justify-items: center;
-  }
-  .leader__quote,
-  .leader__bio {
-    margin-inline: auto;
-  }
-}
-
 /* ================= contact ================= */
 .contact {
   position: relative;
@@ -1867,78 +1805,7 @@
 }
 
 /* ================= Oct 30 revision ================= */
-/* directors: two equal portrait cards, photo + name + designation */
-.leaders__h {
-  margin-bottom: clamp(2rem, 4vw, 3.25rem);
-  text-align: center;
-}
-.leaders__grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 360px));
-  justify-content: center;
-  gap: clamp(1.25rem, 4vw, 3.5rem);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.leaders .leader {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0;
-  justify-items: center;
-  text-align: center;
-}
-.leaders .leader__photo {
-  width: 100%;
-  max-width: none;
-  aspect-ratio: 4 / 5;
-  margin-bottom: 1.15rem;
-}
-.leaders .leader__name {
-  font-family: var(--font-display);
-  font-size: var(--step-2);
-  font-weight: 700;
-  color: var(--navy);
-}
-.leader__role {
-  margin-top: 0.2rem;
-  font-size: 0.82rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--teal-ink);
-}
-@media (max-width: 560px) {
-  .leaders__grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-  }
-  .leaders .leader__name {
-    font-size: 1.05rem;
-  }
-  .leader__role {
-    font-size: 0.72rem;
-  }
-}
-
-/* footer contact: a calm list of mailboxes, the one phone number */
-.footer__mails {
-  display: grid;
-  gap: 0.55rem;
-}
-.footer__mails li {
-  display: grid;
-  gap: 0;
-}
-.footer__mails span {
-  font-size: 0.78rem;
-  color: var(--on-dark-2);
-}
-.footer__mails a {
-  font-size: 0.98rem;
-  font-weight: 560;
-  overflow-wrap: anywhere;
-}
+/* footer contact: one email and a WhatsApp button */
 .footer__phone {
   display: inline-flex;
   align-items: center;
@@ -1958,7 +1825,7 @@
   color: var(--teal);
 }
 
-/* contact band: WhatsApp button + mailbox list */
+/* contact band and footer: WhatsApp button */
 .contact__wa {
   display: inline-flex;
   align-items: center;
@@ -1978,30 +1845,14 @@
   background: #1ebe5b;
   transform: translateY(-2px);
 }
+.footer__wa {
+  margin-top: 0.9rem;
+  min-height: 46px;
+}
 .contact__wa svg {
   width: 30px;
   height: 30px;
 }
-.contact__mails {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.contact__mails .contact__way {
-  height: 100%;
-}
-.contact__mails .contact__way strong {
-  font-size: clamp(0.92rem, 0.85rem + 0.3vw, 1.05rem);
-}
-@media (max-width: 1180px) and (min-width: 961px), (max-width: 520px) {
-  .contact__mails {
-    grid-template-columns: 1fr;
-  }
-}
-
 /* pre-cooked: loins and flakes side by side */
 .photo-pair {
   display: grid;
