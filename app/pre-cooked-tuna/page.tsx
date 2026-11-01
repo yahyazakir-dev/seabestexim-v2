@@ -64,7 +64,7 @@ export default function PrecookedPage() {
             }
             aside={
               <div className="photo-pair">
-                <Photo name="loins-bag" alt="Vacuum-packed pre-cooked tuna loins" sizes="(max-width: 900px) 50vw, 25vw" caption="Pre-cooked loins" />
+                <Photo name="loins-bags-5kg" alt="Vacuum-packed pre-cooked tuna loins" sizes="(max-width: 900px) 50vw, 25vw" caption="Pre-cooked loins" />
                 <Photo name="flakes-bag" alt="Vacuum-packed pre-cooked tuna flakes" sizes="(max-width: 900px) 50vw, 25vw" caption="Pre-cooked flakes" />
               </div>
             }

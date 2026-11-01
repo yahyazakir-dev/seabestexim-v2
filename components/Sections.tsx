@@ -13,8 +13,8 @@ export function ProductLines() {
       title: "Frozen seafood",
       body: "Tuna, swordfish, mahi-mahi, billfish, mackerel, sardine, ribbonfish and reef fish. Whole round, dressed, loins and fillets.",
       meta: "14 species",
-      photo: "frozen-whole",
-      alt: "Whole frozen tuna stacked in a cold store",
+      photo: "frozen-freezer",
+      alt: "Whole frozen tuna packed in a freezer",
       cls: "line--a",
     },
     {
@@ -22,8 +22,8 @@ export function ProductLines() {
       title: "Pre-cooked tuna",
       body: "Skipjack and yellowfin loins and flakes, steam-cooked, cleaned, vacuum packed and frozen for canneries and food makers.",
       meta: "Loins & flakes",
-      photo: "loins-bag",
-      alt: "Vacuum-packed pre-cooked tuna loins",
+      photo: "loins-bags-5kg",
+      alt: "5 kg vacuum-packed bags of pre-cooked tuna loins",
       cls: "line--b",
     },
     {
