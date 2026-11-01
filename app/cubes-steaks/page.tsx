@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 const cuts = [
   { name: "Cubes", photo: "sailfish-cubes", caption: "Sailfish cubes, 35/45 g", body: "Skinless, boneless cubes cut from clean loins and graded by piece weight, for food service, poke and ready meals." },
   { name: "Steaks & portions", photo: "sailfish-portions", caption: "Sailfish portions, 120/160 g", body: "Skinless, boneless portions and cross-cut steaks, cut to the weight band you ask for, for retail and food service." },
-  { name: "Fillets, skin-on & skinless", photo: "red-snapper-fillet-skin-on", caption: "Red snapper skin-on fillets", body: "Boneless side fillets of red snapper and mahi-mahi, supplied skin-on or skinless, trimmed and frozen for retail and catering." },
+  { name: "Fillets, skin-on & skinless", photo: "red-snapper-fillets-tray", caption: "Red snapper fillets, skin-on and skinless", body: "Boneless side fillets of red snapper and mahi-mahi, supplied skin-on or skinless, trimmed and frozen for retail and catering." },
 ];
 
 const faqs = [
@@ -56,7 +56,7 @@ export default function CubesSteaksPage() {
             <h2 id="cuts-h" className="h-lg">
               Three cuts, <span className="ink-accent">your spec.</span>
             </h2>
-            <p className="lede">Cubes and portions are skinless and boneless; fillets come skin-on or skinless. Photos are of our own product.</p>
+            <p className="lede">Cubes and portions are skinless and boneless; fillets come skin-on or skinless.</p>
           </div>
           <div className="portions">
             {cuts.map((c, i) => (

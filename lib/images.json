@@ -132,12 +132,13 @@
       840
     ]
   },
-  "red-snapper-fillet-skin-on": {
-    "w": 740,
-    "h": 880,
+  "red-snapper-fillets-tray": {
+    "w": 1200,
+    "h": 896,
     "widths": [
       640,
-      740
+      1080,
+      1200
     ]
   },
   "reefer": {
