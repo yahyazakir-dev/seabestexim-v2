@@ -24,7 +24,7 @@ export const site = {
 export const nav = [
   { href: "/frozen-seafood/", label: "Frozen" },
   { href: "/pre-cooked-tuna/", label: "Pre-Cooked" },
-  { href: "/pet-food/", label: "Pet Food" },
-  { href: "/cubes-steaks/", label: "Cubes & Steaks" },
+  { href: "/pet-food/", label: "Raw Materials for Pet Food" },
+  { href: "/cubes-steaks/", label: "Value-Added Cubes & Steaks" },
   { href: "/about/", label: "About" },
 ];

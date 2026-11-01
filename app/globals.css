@@ -648,3 +648,12 @@ html {
     width: 150px;
   }
 }
+
+/* ---------- nav, Nov 1 revision: longer menu names stay on one line ---------- */
+.nav a { white-space: nowrap; }
+@media (min-width: 1021px) and (max-width: 1360px) {
+  .nav { gap: 0; }
+  .nav a { padding: 0.5rem 0.6rem; font-size: 0.9rem; }
+  .brand__icon { width: 52px; }
+  .brand__word { width: 196px; }
+}
