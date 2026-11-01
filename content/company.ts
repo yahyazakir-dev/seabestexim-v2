@@ -35,7 +35,7 @@ export const reasons = [
   },
 ];
 
-export const promise = "Quality-led decisions, transparent dealings, direct communication, and relationships built on trust.";
+export const promise = "Carefully sourced seafood, consistent quality and reliable shipments, packed to every buyer's specification.";
 
 export const commitment = [
   "At Sea Best Exim Private Limited, we see every transaction as an opportunity to build a lasting partnership. With quality as our guiding principle, careful quality control, transparent communication and a buyer-focused approach, we strive to create value for our customers in international seafood markets.",

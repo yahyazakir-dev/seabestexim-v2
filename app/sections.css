@@ -1824,9 +1824,6 @@
   height: 1.05em;
   color: var(--teal);
 }
-.footer__phone .wa__glyph {
-  color: #25d366;
-}
 
 /* contact band: WhatsApp button */
 .contact__wa {
