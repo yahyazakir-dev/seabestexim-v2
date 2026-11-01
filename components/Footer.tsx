@@ -41,9 +41,7 @@ export function Footer() {
               <Icon name="mail" />
               {site.email}
             </a>
-            <WhatsAppLink className="contact__wa footer__wa">
-              <span>Chat on WhatsApp</span>
-            </WhatsAppLink>
+            <WhatsAppLink className="footer__phone num">{site.phone}</WhatsAppLink>
             <p className="footer__meta">
               <Icon name="pin" />
               {site.address.line}

@@ -1805,7 +1805,7 @@
 }
 
 /* ================= Oct 30 revision ================= */
-/* footer contact: one email and a WhatsApp button */
+/* footer contact: one email and the WhatsApp number */
 .footer__phone {
   display: inline-flex;
   align-items: center;
@@ -1824,8 +1824,11 @@
   height: 1.05em;
   color: var(--teal);
 }
+.footer__phone .wa__glyph {
+  color: #25d366;
+}
 
-/* contact band and footer: WhatsApp button */
+/* contact band: WhatsApp button */
 .contact__wa {
   display: inline-flex;
   align-items: center;
@@ -1844,10 +1847,6 @@
 .contact__wa:hover {
   background: #1ebe5b;
   transform: translateY(-2px);
-}
-.footer__wa {
-  margin-top: 0.9rem;
-  min-height: 46px;
 }
 .contact__wa svg {
   width: 30px;
