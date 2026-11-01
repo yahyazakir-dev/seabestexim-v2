@@ -418,7 +418,8 @@ export function Parade({ iosMode = "play" }: { iosMode?: "stills" | "play" }) {
 
         <div className="parade__hero wrap">
           <h1 className="parade__title">
-            <img className="parade__logo" src="/brand/logo-full-light.svg" alt="Sea Best Exim Pvt. Ltd." width={960} height={746} />
+            <span className="parade__company">Sea Best Exim</span>
+            <span className="parade__legal">Private Limited</span>
             <span className="parade__tag">
               Frozen &amp; pre‑cooked seafood, <span className="accent">exported from India.</span>
             </span>
