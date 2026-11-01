@@ -418,11 +418,7 @@ export function Parade({ iosMode = "play" }: { iosMode?: "stills" | "play" }) {
 
         <div className="parade__hero wrap">
           <h1 className="parade__title">
-            <span className="parade__company">Sea Best Exim</span>
-            <span className="parade__legal">Private Limited</span>
-            <span className="parade__tag">
-              Frozen &amp; pre‑cooked seafood, <span className="accent">exported from India.</span>
-            </span>
+            Frozen &amp; pre‑cooked seafood, <span className="accent">exported from India.</span>
           </h1>
           <p className="parade__lede">
             <span className="parade__lede-long">
